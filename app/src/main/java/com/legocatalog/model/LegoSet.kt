@@ -2,7 +2,7 @@ package com.legocatalog.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Set(
+data class LegoSet(
         @SerializedName("set_num") val number: String,
         val name: String,
         val year: String,
@@ -22,7 +22,7 @@ data class Set(
             }
 
     companion object {
-        fun fromMap(map: Map<String, Any>) = Set(
+        fun fromMap(map: Map<String, Any>) = LegoSet(
                 map["set_num"] as String,
                 map["name"] as String,
                 map["year"] as String,

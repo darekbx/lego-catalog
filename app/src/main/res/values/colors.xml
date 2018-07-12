@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#093F1E</color>
     <color name="colorAccent">#498860</color>
     <color name="colorAccentLight">#C6DA8B</color>
-    <color name="defaultTextColor">#000</color>
+    <color name="colorDisabled">#55093F1E</color>
+    <color name="defaultTextColor">#444</color>
 </resources>

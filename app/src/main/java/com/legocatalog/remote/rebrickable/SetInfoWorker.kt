@@ -5,7 +5,7 @@ import androidx.work.toWorkData
 import com.google.gson.Gson
 import com.legocatalog.LegoCatalogApp
 import com.legocatalog.model.ErrorResponse
-import com.legocatalog.model.Set
+import com.legocatalog.model.LegoSet
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -44,7 +44,7 @@ class SetInfoWorker: Worker() {
         return Result.FAILURE
     }
 
-    private fun handleError(response: Response<Set>) {
+    private fun handleError(response: Response<LegoSet>) {
         val errorMessage = response.errorBody()?.string()
         errorMessage?.let {
             val errorModel = Gson().fromJson(it, ErrorResponse::class.java)
@@ -52,7 +52,7 @@ class SetInfoWorker: Worker() {
         }
     }
 
-    private fun handleSuccess(response: Response<Set>) {
+    private fun handleSuccess(response: Response<LegoSet>) {
         response.body()?.let {
             outputData = it.toMap().toWorkData()
         }

@@ -18,5 +18,4 @@
         android:onClick="onAddSetClick"
         />
 
-
 </android.support.constraint.ConstraintLayout>

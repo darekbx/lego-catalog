@@ -3,4 +3,6 @@
     <string name="hint_set_number">Set number</string>
     <string name="new_set_title">New set</string>
     <string name="unknown_error">Unknown error</string>
+    <string name="parts_count">Parts count: %s</string>
+    <string name="add_button">Add to my sets</string>
 </resources>
