@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1026338047961",
+    "firebase_url": "https://lego-catalog-1f078.firebaseio.com",
+    "project_id": "lego-catalog-1f078",
+    "storage_bucket": "lego-catalog-1f078.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1026338047961:android:a7391fda72d03277",
+        "android_client_info": {
+          "package_name": "com.legocatalog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1026338047961-u44fjcer5ce3jlsq84v2qtoab88tuk8g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-uzb-iNNyB-_NuG3iUVO5UhVErdHvoA4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

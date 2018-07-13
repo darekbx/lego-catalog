@@ -21,7 +21,9 @@
 
         <activity
             android:name=".ui.set.NewSetActivity"
-            android:label="@string/new_set_title" />
+            android:label="@string/new_set_title"
+            android:windowSoftInputMode="adjustResize"
+            />
     </application>
 
 </manifest>

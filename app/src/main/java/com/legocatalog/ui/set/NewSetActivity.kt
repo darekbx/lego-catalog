@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
@@ -28,6 +29,8 @@ class NewSetActivity: AppCompatActivity() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     internal lateinit var viewModel: NewSetViewModel
 
+    var loadedSet: LegoSet? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_set)
@@ -35,6 +38,7 @@ class NewSetActivity: AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[NewSetViewModel::class.java]
         with(viewModel) {
+
         }
 
         input.setOnEditorActionListener { v, actionId, event ->
@@ -62,13 +66,14 @@ class NewSetActivity: AppCompatActivity() {
     }
 
     fun onAddSetClick(v: View) {
-
-        finish()
+        loadedSet?.let { viewModel.saveSet(it) }
+        // Wait for save?
+        //finish()
     }
 
     private fun notifySuccess(data:Data) {
-        val legoSet = LegoSet.fromMap(data.keyValueMap)
-        showSetInformations(legoSet)
+        loadedSet = LegoSet.fromMap(data.keyValueMap)
+        showSetInformations()
         hideKeyboard()
         hideProgress()
 
@@ -77,12 +82,14 @@ class NewSetActivity: AppCompatActivity() {
         input.clearFocus()
     }
 
-    private fun showSetInformations(legoSet: LegoSet) {
-        with(legoSet) {
-            set_number.text = number
-            set_name.text = "$name ($year)"
-            set_part_count.text = getString(R.string.parts_count, partsCount)
-            Picasso.get().load(imageUrl).into(set_image)
+    private fun showSetInformations() {
+        loadedSet?.let { legoSet ->
+            with(legoSet) {
+                set_number.text = number
+                set_name.text = "$name ($year)"
+                set_part_count.text = getString(R.string.parts_count, partsCount)
+                Picasso.get().load(imageUrl).into(set_image)
+            }
         }
     }
 
