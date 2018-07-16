@@ -2,6 +2,7 @@ package com.legocatalog.di
 
 import android.content.Context
 import com.legocatalog.LegoCatalogApp
+import com.legocatalog.firebase.FirebaseAuthentication
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -15,4 +16,7 @@ class AppModule(val application: LegoCatalogApp) {
 
     @Provides
     fun provideContext(): Context = application
+
+    @Provides
+    fun provideFirebaseAuthentication(): FirebaseAuthentication = FirebaseAuthentication()
 }
