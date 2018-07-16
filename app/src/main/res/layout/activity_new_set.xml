@@ -16,6 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:padding="@dimen/out_padding"
         android:textColor="@color/defaultTextColor"
+        android:textColorHint="@color/hintTextColor"
         android:hint="@string/hint_set_number"
         android:inputType="phone"
         android:imeOptions="actionSearch"

@@ -6,4 +6,5 @@
     <color name="colorAccentLight">#C6DA8B</color>
     <color name="colorDisabled">#55093F1E</color>
     <color name="defaultTextColor">#444</color>
+    <color name="hintTextColor">#5444</color>
 </resources>

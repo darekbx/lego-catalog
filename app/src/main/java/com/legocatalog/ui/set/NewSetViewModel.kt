@@ -26,6 +26,8 @@ class NewSetViewModel @Inject constructor(): ViewModel() {
 
     fun saveSet(set: LegoSet) {
         val database = FirebaseDatabase.getInstance().reference
-        database.child("sets").child(set.number).setValue(set).addOnSuccessListener { Log.v("-----------", "Success") }.addOnFailureListener { a->a.printStackTrace()  }
+        database.child("sets").child(set.number).setValue(set)
+                .addOnSuccessListener { Log.v("-----------", "Success") }
+                .addOnFailureListener { a->a.printStackTrace()  }
     }
 }

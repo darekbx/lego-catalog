@@ -8,6 +8,7 @@
     tools:context=".ui.main.MainActivity">
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_button"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
         app:layout_constraintBottom_toBottomOf="parent"
