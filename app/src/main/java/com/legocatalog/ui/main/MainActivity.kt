@@ -10,6 +10,7 @@ import android.view.View
 import com.google.firebase.auth.FirebaseAuth
 import com.legocatalog.LegoCatalogApp
 import com.legocatalog.R
+import com.legocatalog.extensions.safeContext
 import com.legocatalog.firebase.FirebaseAuthentication
 import com.legocatalog.ui.set.NewSetActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -38,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         with(viewModel) { }
 
         authenticateWithGoogle()
+
+        main_pager.adapter = SetListPageAdapter(this, supportFragmentManager)
     }
 
     private fun authenticateWithGoogle() {

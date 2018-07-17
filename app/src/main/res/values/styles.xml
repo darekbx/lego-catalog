@@ -27,4 +27,13 @@
         <item name="android:background">@drawable/bg_default_button</item>
     </style>
 
+    <style name="defaultPagerStrip">
+        <item name="android:layout_gravity">top</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:background">@color/colorAccentLight</item>
+        <item name="android:textColor">@color/defaultTextColor</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
 </resources>

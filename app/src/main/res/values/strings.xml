@@ -5,4 +5,10 @@
     <string name="unknown_error">Unknown error</string>
     <string name="parts_count">Parts count: %s</string>
     <string name="add_button">Add to my sets</string>
+
+    <string-array name="tab_names">
+        <item>Duplo</item>
+        <item>City</item>
+        <item>Technic</item>
+    </string-array>
 </resources>

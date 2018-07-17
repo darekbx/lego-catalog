@@ -16,10 +16,14 @@ import androidx.work.State
 import androidx.work.WorkManager
 import com.legocatalog.LegoCatalogApp
 import com.legocatalog.R
+import com.legocatalog.extensions.hide
+import com.legocatalog.extensions.show
 import com.legocatalog.model.LegoSet
 import com.legocatalog.remote.rebrickable.SetInfoWorker
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_new_set.*
+import java.lang.Exception
 import java.util.*
 import javax.inject.Inject
 
@@ -38,12 +42,20 @@ class NewSetActivity: AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[NewSetViewModel::class.java]
         with(viewModel) {
+            viewModel.result.observe(this@NewSetActivity, Observer { result ->
+                result?.let { result ->
+                    when (result.first) {
+                        true -> onSuccess()
+                        else -> onError(result.second)
+                    }
+                }
+            })
 
         }
 
         input.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                progress_container.visibility = View.VISIBLE
+                progress_container.show()
                 val workId = viewModel.discoverSetInfo(setNumber())
                 observeChanges(workId)
             }
@@ -55,6 +67,7 @@ class NewSetActivity: AppCompatActivity() {
         WorkManager.getInstance()?.let {
             it.getStatusById(uuid).observe(this, Observer { workStatus ->
                 workStatus?.let {
+                    progress_container.hide()
                     when (workStatus.state) {
                         State.SUCCEEDED -> notifySuccess(workStatus.outputData)
                         State.FAILED -> notifyFailure(workStatus.outputData)
@@ -66,9 +79,16 @@ class NewSetActivity: AppCompatActivity() {
     }
 
     fun onAddSetClick(v: View) {
+        progress_container.show()
         loadedSet?.let { viewModel.saveSet(it) }
-        // Wait for save?
-        //finish()
+    }
+
+    private fun onSuccess() {
+        finish()
+    }
+
+    private fun onError(message: String) {
+        Snackbar.make(input, message, Snackbar.LENGTH_LONG).show()
     }
 
     private fun notifySuccess(data:Data) {
@@ -88,9 +108,22 @@ class NewSetActivity: AppCompatActivity() {
                 set_number.text = number
                 set_name.text = "$name ($year)"
                 set_part_count.text = getString(R.string.parts_count, partsCount)
-                Picasso.get().load(imageUrl).into(set_image)
+                loadImage()
             }
         }
+    }
+
+    private fun LegoSet.loadImage() {
+        image_progress.show()
+        Picasso.get().load(imageUrl).into(set_image, object : Callback {
+            override fun onSuccess() {
+                image_progress.hide()
+            }
+
+            override fun onError(e: Exception?) {
+                image_progress.hide()
+            }
+        })
     }
 
     private fun notifyFailure(data: Data) {
@@ -100,7 +133,7 @@ class NewSetActivity: AppCompatActivity() {
     }
 
     private fun hideProgress() {
-        progress_container.visibility = View.GONE
+        progress_container.hide()
     }
 
     private fun setNumber() = input.text.toString()

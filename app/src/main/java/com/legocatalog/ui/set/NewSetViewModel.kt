@@ -1,17 +1,19 @@
 package com.legocatalog.ui.set
 
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.util.Log
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.google.firebase.database.FirebaseDatabase
+import com.legocatalog.firebase.FirebaseDatabase
 import com.legocatalog.model.LegoSet
 import com.legocatalog.remote.rebrickable.SetInfoWorker
 import java.util.*
 import javax.inject.Inject
 
-class NewSetViewModel @Inject constructor(): ViewModel() {
+class NewSetViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase): ViewModel() {
+
+    var result: MutableLiveData<Pair<Boolean,String>> = MutableLiveData()
 
     fun discoverSetInfo(setNumber: String): UUID {
         val data = Data.Builder()
@@ -25,9 +27,8 @@ class NewSetViewModel @Inject constructor(): ViewModel() {
     }
 
     fun saveSet(set: LegoSet) {
-        val database = FirebaseDatabase.getInstance().reference
-        database.child("sets").child(set.number).setValue(set)
-                .addOnSuccessListener { Log.v("-----------", "Success") }
-                .addOnFailureListener { a->a.printStackTrace()  }
+        firebaseDatabase.sets.child(set.number).setValue(set)
+                .addOnSuccessListener { result.value = (true to "") }
+                .addOnFailureListener { error -> result.value = (false to error.toString()) }
     }
 }
