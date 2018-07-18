@@ -39,7 +39,7 @@ class NewSetActivity: AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[NewSetViewModel::class.java]
         with(viewModel) {
-            viewModel.result.observe(this@NewSetActivity, Observer { result ->
+            result.observe(this@NewSetActivity, Observer { result ->
                 result?.let { result ->
                     when (result.first) {
                         true -> onSuccess()
@@ -47,7 +47,6 @@ class NewSetActivity: AppCompatActivity() {
                     }
                 }
             })
-
         }
 
         input.setOnEditorActionListener { v, actionId, event ->

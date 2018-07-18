@@ -1,15 +1,16 @@
 package com.legocatalog.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class LegoSet(
-        @SerializedName("set_num") val number: String,
-        val name: String,
-        val year: String,
-        @SerializedName("theme_id") val themeId: String,
-        @SerializedName("num_parts") val partsCount: String,
-        @SerializedName("set_img_url") val imageUrl: String
-) {
+        @SerializedName("set_num") val number: String = "",
+        val name: String = "",
+        val year: String = "",
+        @SerializedName("theme_id") val themeId: String = "",
+        @SerializedName("num_parts") val partsCount: String = "",
+        @SerializedName("set_img_url") val imageUrl: String = ""
+): Serializable {
 
     fun toMap() = HashMap<String, Any>()
             .apply {
