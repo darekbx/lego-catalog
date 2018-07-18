@@ -1,4 +1,4 @@
-package com.legocatalog.ui.main
+package com.legocatalog.ui.main.setlist
 
 import android.os.Bundle
 import android.support.v4.app.Fragment

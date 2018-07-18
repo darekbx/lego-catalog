@@ -2,7 +2,7 @@ package com.legocatalog.di
 
 import com.legocatalog.remote.rebrickable.SetInfoWorker
 import com.legocatalog.ui.main.MainActivity
-import com.legocatalog.ui.main.SetListFragment
+import com.legocatalog.ui.main.setlist.SetListFragment
 import com.legocatalog.ui.set.NewSetActivity
 import dagger.Component
 import javax.inject.Singleton

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import com.legocatalog.R
+import com.legocatalog.ui.main.setlist.SetListFragment
 
 class SetListPageAdapter(
         val context: Context,
