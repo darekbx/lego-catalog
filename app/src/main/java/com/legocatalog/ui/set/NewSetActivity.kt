@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
@@ -13,7 +12,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.work.Data
 import androidx.work.State
-import androidx.work.WorkManager
 import com.legocatalog.LegoCatalogApp
 import com.legocatalog.R
 import com.legocatalog.extensions.hide
@@ -24,7 +22,6 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_new_set.*
 import java.lang.Exception
-import java.util.*
 import javax.inject.Inject
 
 class NewSetActivity: AppCompatActivity() {
@@ -56,26 +53,24 @@ class NewSetActivity: AppCompatActivity() {
         input.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 progress_container.show()
-                val workId = viewModel.discoverSetInfo(setNumber())
-                observeChanges(workId)
+                viewModel.discoverSetInfo(setNumber())
+                observeChanges()
             }
             return@setOnEditorActionListener true
         }
     }
 
-    fun observeChanges(uuid: UUID) {
-        WorkManager.getInstance()?.let {
-            it.getStatusById(uuid).observe(this, Observer { workStatus ->
-                workStatus?.let {
-                    progress_container.hide()
-                    when (workStatus.state) {
-                        State.SUCCEEDED -> notifySuccess(workStatus.outputData)
-                        State.FAILED -> notifyFailure(workStatus.outputData)
-                        else -> { }
-                    }
+    fun observeChanges() {
+        viewModel.workStatus?.observe(this, Observer { workStatus ->
+            workStatus?.let {
+                progress_container.hide()
+                when (workStatus.state) {
+                    State.SUCCEEDED -> notifySuccess(workStatus.outputData)
+                    State.FAILED -> notifyFailure(workStatus.outputData)
+                    else -> { }
                 }
-            })
-        }
+            }
+        })
     }
 
     fun onAddSetClick(v: View) {
