@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -73,8 +74,26 @@ class NewSetActivity: AppCompatActivity() {
     }
 
     fun onAddSetClick(v: View) {
+        showTypeDialog()
+    }
+
+    private fun showTypeDialog() {
+        val dialog = AlertDialog.Builder(this)
+                .setView(R.layout.dialog_type)
+                .show()
+        with(dialog) {
+            findViewById<View>(R.id.type_duplo)?.setOnClickListener { saveSet(LegoSet.Theme.DUPLO) }
+            findViewById<View>(R.id.type_city)?.setOnClickListener { saveSet(LegoSet.Theme.CITY) }
+            findViewById<View>(R.id.type_technic)?.setOnClickListener { saveSet(LegoSet.Theme.TECHNIC) }
+        }
+    }
+
+    private fun saveSet(theme: LegoSet.Theme) {
         progress_container.show()
-        loadedSet?.let { viewModel.saveSet(it) }
+        loadedSet?.let {
+            it.themeId = theme.ordinal
+            viewModel.saveSet(it)
+        }
     }
 
     private fun onSuccess() {

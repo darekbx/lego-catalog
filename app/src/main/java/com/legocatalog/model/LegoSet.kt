@@ -7,7 +7,7 @@ data class LegoSet(
         @SerializedName("set_num") val number: String = "",
         val name: String = "",
         val year: String = "",
-        @SerializedName("theme_id") val themeId: String = "",
+        var themeId: Int = 0,
         @SerializedName("num_parts") val partsCount: String = "",
         @SerializedName("set_img_url") val imageUrl: String = ""
 ): Serializable {
@@ -27,9 +27,15 @@ data class LegoSet(
                 map["set_num"] as String,
                 map["name"] as String,
                 map["year"] as String,
-                map["theme_id"] as String,
+                map["theme_id"] as Int,
                 map["num_parts"] as String,
                 map["set_img_url"] as String
         )
+    }
+
+    enum class Theme {
+        DUPLO,
+        CITY,
+        TECHNIC
     }
 }

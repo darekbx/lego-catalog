@@ -28,7 +28,7 @@ class SetListPageAdapter(
     override fun getCount() = TAB_COUNT
 
     override fun getPageTitle(position: Int) =
-            resources.getStringArray(R.array.tab_names)[position]
+            resources.getStringArray(R.array.types)[position]
 
     private val resources by lazy { context.resources }
 }
