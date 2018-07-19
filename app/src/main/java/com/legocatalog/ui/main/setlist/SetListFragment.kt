@@ -6,7 +6,8 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
-import android.util.Log
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,8 @@ class SetListFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     internal lateinit var viewModel: SetListViewModel
 
+    lateinit var setListAdapter: SetListAdapter
+
     companion object {
         val TAB_POSITION_KEY = "tab_position_key"
     }
@@ -32,17 +35,6 @@ class SetListFragment : Fragment() {
         }
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[SetListViewModel::class.java]
-        with(viewModel) {
-            message.observe(this@SetListFragment, Observer { message ->
-                showMessage(message)
-            })
-            sets.observe(this@SetListFragment, Observer { result ->
-
-                Log.v("------------", "${result?.size ?: -1}")
-
-            })
-            loadSets()
-        }
     }
 
     private fun showMessage(message: String?) {
@@ -58,5 +50,32 @@ class SetListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initializeList(view)
+        observeViewModel()
+        viewModel.loadSets()
+    }
+
+    private fun observeViewModel() {
+        with(viewModel) {
+            message.observe(this@SetListFragment, Observer { message ->
+                showMessage(message)
+            })
+            sets.observe(this@SetListFragment, Observer { result ->
+                result?.let {
+                    setListAdapter.swapData(result)
+                }
+            })
+        }
+    }
+
+    private fun initializeList(view: View) {
+        setListAdapter = SetListAdapter(view.context, { clickedSet ->
+            Snackbar.make(view, clickedSet.number, Snackbar.LENGTH_SHORT).show()
+        })
+        val layoutManager = LinearLayoutManager(view.context)
+        sets_list.layoutManager = layoutManager
+        sets_list.addItemDecoration(DividerItemDecoration(view.context, layoutManager.orientation))
+        sets_list.adapter = setListAdapter
     }
 }
