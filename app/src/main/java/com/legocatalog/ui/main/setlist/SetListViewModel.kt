@@ -14,7 +14,7 @@ class SetListViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabas
     val sets = MutableLiveData<List<LegoSet>>()
     val message = MutableLiveData<String>()
 
-    fun loadSets() {
+    fun loadSets(theme: LegoSet.Theme) {
         val query = firebaseDatabase.sets.orderByKey()
         query.addValueEventListener(object: ValueEventListener {
 
@@ -25,7 +25,10 @@ class SetListViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabas
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 with(mutableListOf<LegoSet>()) {
                     dataSnapshot.children.forEach { child ->
-                        add(child.getValue(LegoSet::class.java) as LegoSet)
+                        val legoSet = child.getValue(LegoSet::class.java) as LegoSet
+                        if (legoSet.themeId == theme.ordinal) {
+                            add(legoSet)
+                        }
                     }
                     sets.postValue(this)
                 }

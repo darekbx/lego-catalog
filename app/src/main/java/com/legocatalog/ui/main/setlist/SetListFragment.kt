@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.legocatalog.LegoCatalogApp
 import com.legocatalog.R
+import com.legocatalog.model.LegoSet
 import kotlinx.android.synthetic.main.fragment_set_list.*
 import javax.inject.Inject
 
@@ -53,7 +54,7 @@ class SetListFragment : Fragment() {
 
         initializeList(view)
         observeViewModel()
-        viewModel.loadSets()
+        viewModel.loadSets(LegoSet.Theme.values()[tabPosition])
     }
 
     private fun observeViewModel() {
@@ -78,4 +79,6 @@ class SetListFragment : Fragment() {
         sets_list.addItemDecoration(DividerItemDecoration(view.context, layoutManager.orientation))
         sets_list.adapter = setListAdapter
     }
+
+    val tabPosition by lazy { arguments?.getInt(TAB_POSITION_KEY) ?: 0 }
 }
