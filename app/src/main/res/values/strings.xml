@@ -6,6 +6,7 @@
     <string name="parts_count">Parts count: %s</string>
     <string name="add_button">Add to my sets</string>
     <string name="set_type_title">Choose type</string>
+    <string name="summary">Sets: %d\nParts: %d</string>
 
     <string name="type_duplo">Duplo</string>
     <string name="type_city">City</string>

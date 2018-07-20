@@ -65,9 +65,17 @@ class SetListFragment : Fragment() {
             sets.observe(this@SetListFragment, Observer { result ->
                 result?.let {
                     setListAdapter.swapData(result)
+                    displaySummary(result)
                 }
             })
         }
+    }
+
+    private fun displaySummary(result: List<LegoSet>) {
+        var setsCount = result.size
+        var partsCount = result.sumBy { set -> set.partsCount.toInt() }
+
+        summary.text = getString(R.string.summary, setsCount, partsCount)
     }
 
     private fun initializeList(view: View) {
