@@ -3,6 +3,8 @@ package com.legocatalog.ui.main.setlist
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -83,8 +85,11 @@ class SetListFragment : Fragment() {
             Snackbar.make(view, clickedSet.number, Snackbar.LENGTH_SHORT).show()
         })
         val layoutManager = LinearLayoutManager(view.context)
+        val color = resources.getColor(R.color.colorAccent, activity?.theme)
+        val divider = DividerItemDecoration(sets_list.context, layoutManager.orientation)
+                .apply { setDrawable(ColorDrawable(color)) }
+        sets_list.addItemDecoration(divider)
         sets_list.layoutManager = layoutManager
-        sets_list.addItemDecoration(DividerItemDecoration(view.context, layoutManager.orientation))
         sets_list.adapter = setListAdapter
     }
 

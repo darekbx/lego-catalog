@@ -32,8 +32,8 @@
 
     <style name="defaultPagerStrip">
         <item name="android:layout_gravity">top</item>
-        <item name="android:paddingTop">15dp</item>
-        <item name="android:paddingBottom">15dp</item>
+        <item name="android:paddingTop">@dimen/in_padding</item>
+        <item name="android:paddingBottom">@dimen/in_padding</item>
         <item name="android:background">@color/colorAccentLight</item>
         <item name="android:textColor">@color/defaultTextColor</item>
         <item name="android:textSize">20sp</item>
