@@ -7,10 +7,10 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
 import com.legocatalog.LegoCatalogApp
 import com.legocatalog.R
-import com.legocatalog.extensions.safeContext
 import com.legocatalog.firebase.FirebaseAuthentication
 import com.legocatalog.ui.set.NewSetActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var authentication: FirebaseAuthentication
 
     internal lateinit var viewModel: MainViewModel
+    lateinit var tabAdapter: SetListPageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +41,21 @@ class MainActivity : AppCompatActivity() {
 
         authenticateWithGoogle()
 
-        main_pager.adapter = SetListPageAdapter(this, supportFragmentManager)
+        tabAdapter = SetListPageAdapter(this@MainActivity, supportFragmentManager)
+        main_pager.adapter = tabAdapter
     }
+
+    fun updateTitle(tabIndex: Int, itemsCount: Int) {
+        tabAdapter.setCounter(tabIndex, itemsCount)
+        val titleView =  main_pager_title_strip.getChildAt(tabIndex + 1)
+        titleView?.let {
+            if (it is TextView && !hasBracket(it)) {
+                it.text = "${it.text} ($itemsCount)"
+            }
+        }
+    }
+
+    private fun hasBracket(it: TextView) = it.text.contains("(")
 
     private fun authenticateWithGoogle() {
         startActivityForResult(

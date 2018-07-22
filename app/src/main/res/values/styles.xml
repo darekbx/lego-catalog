@@ -36,7 +36,7 @@
         <item name="android:paddingBottom">@dimen/in_padding</item>
         <item name="android:background">@color/colorAccentLight</item>
         <item name="android:textColor">@color/defaultTextColor</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>

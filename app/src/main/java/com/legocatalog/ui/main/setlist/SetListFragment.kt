@@ -3,7 +3,6 @@ package com.legocatalog.ui.main.setlist
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -16,6 +15,7 @@ import android.view.ViewGroup
 import com.legocatalog.LegoCatalogApp
 import com.legocatalog.R
 import com.legocatalog.model.LegoSet
+import com.legocatalog.ui.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_set_list.*
 import javax.inject.Inject
 
@@ -68,16 +68,23 @@ class SetListFragment : Fragment() {
                 result?.let {
                     setListAdapter.swapData(result)
                     displaySummary(result)
+                    updateTabTitle(result)
                 }
             })
         }
     }
 
     private fun displaySummary(result: List<LegoSet>) {
-        var setsCount = result.size
         var partsCount = result.sumBy { set -> set.partsCount.toInt() }
+        summary.text = getString(R.string.summary, partsCount)
+    }
 
-        summary.text = getString(R.string.summary, setsCount, partsCount)
+    private fun updateTabTitle(result: List<LegoSet>) {
+        activity?.let {
+            if (it is MainActivity) {
+                it.updateTitle(tabPosition, result.size)
+            }
+        }
     }
 
     private fun initializeList(view: View) {

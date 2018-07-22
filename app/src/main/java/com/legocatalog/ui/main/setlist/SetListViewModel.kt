@@ -30,6 +30,7 @@ class SetListViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabas
                             add(legoSet)
                         }
                     }
+                    sortByDescending { it.year }
                     sets.postValue(this)
                 }
             }

@@ -15,6 +15,12 @@ class SetListPageAdapter(
         val TAB_COUNT = 3
     }
 
+    val tabCounters = mutableMapOf<Int, Int>()
+
+    fun setCounter(tabIntex: Int, count: Int) {
+        tabCounters.put(tabIntex, count)
+    }
+
     override fun getItem(position: Int) =
             SetListFragment().apply {
                 arguments = createArguments(position)
@@ -27,8 +33,13 @@ class SetListPageAdapter(
 
     override fun getCount() = TAB_COUNT
 
-    override fun getPageTitle(position: Int) =
-            resources.getStringArray(R.array.types)[position]
+    override fun getPageTitle(position: Int) : String {
+        var title = resources.getStringArray(R.array.types)[position]
+        if (tabCounters.containsKey(position)) {
+            title = "$title (${tabCounters[position]})"
+        }
+        return title
+    }
 
     private val resources by lazy { context.resources }
 }
