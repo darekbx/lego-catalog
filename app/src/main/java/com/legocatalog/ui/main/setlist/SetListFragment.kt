@@ -3,6 +3,7 @@ package com.legocatalog.ui.main.setlist
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -16,6 +17,7 @@ import com.legocatalog.LegoCatalogApp
 import com.legocatalog.R
 import com.legocatalog.model.LegoSet
 import com.legocatalog.ui.main.MainActivity
+import com.legocatalog.ui.set.SetActivity
 import kotlinx.android.synthetic.main.fragment_set_list.*
 import javax.inject.Inject
 
@@ -89,7 +91,7 @@ class SetListFragment : Fragment() {
 
     private fun initializeList(view: View) {
         setListAdapter = SetListAdapter(view.context, { clickedSet ->
-            Snackbar.make(view, clickedSet.number, Snackbar.LENGTH_SHORT).show()
+            openSet(clickedSet)
         })
         val layoutManager = LinearLayoutManager(view.context)
         val color = resources.getColor(R.color.colorAccent, activity?.theme)
@@ -98,6 +100,14 @@ class SetListFragment : Fragment() {
         sets_list.addItemDecoration(divider)
         sets_list.layoutManager = layoutManager
         sets_list.adapter = setListAdapter
+    }
+
+    private fun openSet(legoSet: LegoSet) {
+        startActivity(
+                Intent(context, SetActivity::class.java).apply {
+                    putExtra(SetActivity.SET_NUMBER, legoSet.number)
+                }
+        )
     }
 
     val tabPosition by lazy { arguments?.getInt(TAB_POSITION_KEY) ?: 0 }

@@ -1,4 +1,4 @@
-package com.legocatalog.firebase
+package com.legocatalog.repository.firebase
 
 import com.google.firebase.database.FirebaseDatabase
 

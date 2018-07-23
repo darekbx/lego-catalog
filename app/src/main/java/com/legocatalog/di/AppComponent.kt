@@ -1,9 +1,10 @@
 package com.legocatalog.di
 
-import com.legocatalog.remote.rebrickable.SetInfoWorker
+import com.legocatalog.repository.remote.rebrickable.SetInfoWorker
 import com.legocatalog.ui.main.MainActivity
 import com.legocatalog.ui.main.setlist.SetListFragment
-import com.legocatalog.ui.set.NewSetActivity
+import com.legocatalog.ui.newset.NewSetActivity
+import com.legocatalog.ui.set.SetActivity
 import dagger.Component
 import javax.inject.Singleton
 
@@ -14,4 +15,5 @@ interface AppComponent {
     fun inject(newSetActivity: NewSetActivity)
     fun inject(worker: SetInfoWorker)
     fun inject(setListFragment: SetListFragment)
+    fun inject(setActivity: SetActivity)
 }

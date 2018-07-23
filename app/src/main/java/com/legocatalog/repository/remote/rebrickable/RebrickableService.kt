@@ -1,4 +1,4 @@
-package com.legocatalog.remote.rebrickable
+package com.legocatalog.repository.remote.rebrickable
 
 import com.legocatalog.model.LegoSet
 import retrofit2.Call

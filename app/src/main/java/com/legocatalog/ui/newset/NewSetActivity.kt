@@ -1,4 +1,4 @@
-package com.legocatalog.ui.set
+package com.legocatalog.ui.newset
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
@@ -18,7 +18,7 @@ import com.legocatalog.R
 import com.legocatalog.extensions.hide
 import com.legocatalog.extensions.show
 import com.legocatalog.model.LegoSet
-import com.legocatalog.remote.rebrickable.SetInfoWorker
+import com.legocatalog.repository.remote.rebrickable.SetInfoWorker
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_new_set.*
@@ -121,14 +121,14 @@ class NewSetActivity: AppCompatActivity() {
                 set_number.text = number
                 set_name.text = "$name ($year)"
                 set_part_count.text = getString(R.string.parts_count, partsCount)
-                loadImage()
+                loadImage(this)
             }
         }
     }
 
-    private fun LegoSet.loadImage() {
+    private fun loadImage(legoSet: LegoSet) {
         image_progress.show()
-        Picasso.get().load(imageUrl).into(set_image, object : Callback {
+        Picasso.get().load(legoSet.imageUrl).into(set_image, object : Callback {
             override fun onSuccess() {
                 image_progress.hide()
             }

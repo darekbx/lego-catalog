@@ -1,4 +1,4 @@
-package com.legocatalog.ui.set
+package com.legocatalog.ui.newset
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
@@ -7,12 +7,12 @@ import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkStatus
-import com.legocatalog.firebase.FirebaseDatabase
 import com.legocatalog.model.LegoSet
-import com.legocatalog.remote.rebrickable.SetInfoWorker
+import com.legocatalog.repository.Repository
+import com.legocatalog.repository.remote.rebrickable.SetInfoWorker
 import javax.inject.Inject
 
-class NewSetViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase): ViewModel() {
+class NewSetViewModel @Inject constructor(val repository: Repository): ViewModel() {
 
     var result: MutableLiveData<Pair<Boolean,String>> = MutableLiveData()
     var workStatus: LiveData<WorkStatus>? = null
@@ -33,7 +33,7 @@ class NewSetViewModel @Inject constructor(val firebaseDatabase: FirebaseDatabase
     }
 
     fun saveSet(set: LegoSet) {
-        firebaseDatabase.sets.child(set.number).setValue(set)
+        repository.saveItem(set)
                 .addOnSuccessListener { result.value = (true to "") }
                 .addOnFailureListener { error -> result.value = (false to error.toString()) }
     }

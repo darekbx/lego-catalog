@@ -11,8 +11,8 @@ import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
 import com.legocatalog.LegoCatalogApp
 import com.legocatalog.R
-import com.legocatalog.firebase.FirebaseAuthentication
-import com.legocatalog.ui.set.NewSetActivity
+import com.legocatalog.repository.firebase.FirebaseAuthentication
+import com.legocatalog.ui.newset.NewSetActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 

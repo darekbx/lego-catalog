@@ -1,4 +1,4 @@
-package com.legocatalog.remote.rebrickable
+package com.legocatalog.repository.remote.rebrickable
 
 import androidx.work.Worker
 import androidx.work.toWorkData

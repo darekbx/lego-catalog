@@ -20,9 +20,12 @@
         </activity>
 
         <activity
-            android:name=".ui.set.NewSetActivity"
+            android:name=".ui.newset.NewSetActivity"
             android:label="@string/new_set_title"
             android:windowSoftInputMode="adjustResize"
+            />
+        <activity
+            android:name=".ui.set.SetActivity"
             />
     </application>
 

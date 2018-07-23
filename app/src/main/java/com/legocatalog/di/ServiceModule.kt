@@ -1,7 +1,7 @@
 package com.legocatalog.di
 
 import com.legocatalog.BuildConfig
-import com.legocatalog.remote.rebrickable.RebrickableService
+import com.legocatalog.repository.remote.rebrickable.RebrickableService
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
