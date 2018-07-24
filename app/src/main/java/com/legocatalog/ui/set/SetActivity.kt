@@ -10,6 +10,7 @@ import com.legocatalog.R
 import com.legocatalog.extensions.hide
 import com.legocatalog.extensions.show
 import com.legocatalog.model.LegoSet
+import com.legocatalog.ui.partlist.PartListFragment
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_set.*
@@ -40,6 +41,20 @@ class SetActivity : AppCompatActivity() {
             })
             loadSet(setNumber)
         }
+
+        initPartsFragment()
+    }
+
+    private fun initPartsFragment() {
+        val fragment = PartListFragment().apply {
+            arguments = Bundle(1).apply {
+                putString(PartListFragment.SET_NUMBER, this@SetActivity.setNumber)
+            }
+        }
+        supportFragmentManager
+                .beginTransaction()
+                .add(R.id.container, fragment)
+                .commitAllowingStateLoss()
     }
 
     private fun fillSet(legoSet: LegoSet) {

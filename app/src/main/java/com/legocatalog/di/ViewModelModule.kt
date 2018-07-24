@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import com.legocatalog.ui.main.MainViewModel
 import com.legocatalog.ui.main.setlist.SetListViewModel
 import com.legocatalog.ui.newset.NewSetViewModel
+import com.legocatalog.ui.partlist.PartsListViewModel
 import com.legocatalog.ui.set.SetViewModel
 import dagger.Binds
 import dagger.Module
@@ -35,4 +36,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelFactory.ViewModelKey(SetViewModel::class)
     internal abstract fun bindSetViewModel(viewModel: SetViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelFactory.ViewModelKey(PartsListViewModel::class)
+    internal abstract fun bindPartsListViewModel(viewModel: PartsListViewModel): ViewModel
 }
