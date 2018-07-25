@@ -1,17 +1,17 @@
-package com.legocatalog.repository
+package com.legocatalog.data.repository
 
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.legocatalog.model.LegoSet
-import com.legocatalog.repository.firebase.FirebaseDatabase
+import com.legocatalog.data.remote.firebase.FirebaseDatabase
+import com.legocatalog.ui.model.SetInfo
 import java.util.*
 
 class Repository(val firebaseDatabase: FirebaseDatabase) {
 
-    fun fetchItems(theme: LegoSet.Theme,
+    fun fetchItems(theme: SetInfo.Theme,
                    onMessage: (message: String) -> Unit,
-                   onResult: (list: List<LegoSet>) -> Unit) =
+                   onResult: (list: List<SetInfo>) -> Unit) =
             firebaseDatabase
                     .sets
                     .orderByKey()
@@ -26,15 +26,15 @@ class Repository(val firebaseDatabase: FirebaseDatabase) {
                         }
                     })
 
-    fun saveItem(legoSet: LegoSet) =
+    fun saveItem(setInfo: SetInfo) =
             firebaseDatabase
                     .sets
                     .child(UUID.randomUUID().toString())
-                    .setValue(legoSet)
+                    .setValue(setInfo)
 
     fun loadItem(number: String,
                  onMessage: (message: String) -> Unit,
-                 onResult: (set: LegoSet) -> Unit) {
+                 onResult: (set: SetInfo) -> Unit) {
         firebaseDatabase
                 .sets
                 .orderByKey()
@@ -50,22 +50,22 @@ class Repository(val firebaseDatabase: FirebaseDatabase) {
                 })
     }
 
-    private fun findLegoSet(dataSnapshot: DataSnapshot, number: String, onResult: (set: LegoSet) -> Unit) {
+    private fun findLegoSet(dataSnapshot: DataSnapshot, number: String, onResult: (set: SetInfo) -> Unit) {
         dataSnapshot.children.forEach { child ->
-            val legoSet = childToLegoSet(child)
-            if (legoSet.number == number) {
-                onResult(legoSet)
+            val setInfo = childToLegoSet(child)
+            if (setInfo.number == number) {
+                onResult(setInfo)
                 return@forEach
             }
         }
     }
 
-    private fun childrenToList(dataSnapshot: DataSnapshot, theme: LegoSet.Theme, onResult: (list: List<LegoSet>) -> Unit) {
-        with(mutableListOf<LegoSet>()) {
+    private fun childrenToList(dataSnapshot: DataSnapshot, theme: SetInfo.Theme, onResult: (list: List<SetInfo>) -> Unit) {
+        with(mutableListOf<SetInfo>()) {
             dataSnapshot.children.forEach { child ->
-                val legoSet = childToLegoSet(child)
-                if (legoSet.themeId == theme.ordinal) {
-                    add(legoSet)
+                val setInfo = childToLegoSet(child)
+                if (setInfo.themeId == theme.ordinal) {
+                    add(setInfo)
                 }
             }
             sortByDescending { it.year }
@@ -74,5 +74,5 @@ class Repository(val firebaseDatabase: FirebaseDatabase) {
     }
 
     private fun childToLegoSet(child: DataSnapshot) =
-            child.getValue(LegoSet::class.java) as LegoSet
+            child.getValue(SetInfo::class.java) as SetInfo
 }

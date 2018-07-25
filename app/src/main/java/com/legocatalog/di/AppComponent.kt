@@ -1,7 +1,7 @@
 package com.legocatalog.di
 
-import com.legocatalog.repository.remote.rebrickable.PartsWorker
-import com.legocatalog.repository.remote.rebrickable.SetInfoWorker
+import com.legocatalog.data.repository.workers.PartsWorker
+import com.legocatalog.data.repository.workers.SetInfoWorker
 import com.legocatalog.ui.main.MainActivity
 import com.legocatalog.ui.main.setlist.SetListFragment
 import com.legocatalog.ui.newset.NewSetActivity

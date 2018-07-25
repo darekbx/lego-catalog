@@ -1,4 +1,4 @@
-package com.legocatalog.repository.firebase
+package com.legocatalog.data.remote.firebase
 
 import android.app.Activity
 import android.content.Intent

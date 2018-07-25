@@ -15,8 +15,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.legocatalog.LegoCatalogApp
 import com.legocatalog.R
-import com.legocatalog.model.LegoSet
 import com.legocatalog.ui.main.MainActivity
+import com.legocatalog.ui.model.SetInfo
 import com.legocatalog.ui.set.SetActivity
 import kotlinx.android.synthetic.main.fragment_set_list.*
 import javax.inject.Inject
@@ -58,7 +58,7 @@ class SetListFragment : Fragment() {
 
         initializeList(view)
         observeViewModel()
-        viewModel.loadSets(LegoSet.Theme.values()[tabPosition])
+        viewModel.loadSets(SetInfo.Theme.values()[tabPosition])
     }
 
     private fun observeViewModel() {
@@ -76,12 +76,12 @@ class SetListFragment : Fragment() {
         }
     }
 
-    private fun displaySummary(result: List<LegoSet>) {
+    private fun displaySummary(result: List<SetInfo>) {
         var partsCount = result.sumBy { set -> set.partsCount.toInt() }
         summary.text = getString(R.string.summary, partsCount)
     }
 
-    private fun updateTabTitle(result: List<LegoSet>) {
+    private fun updateTabTitle(result: List<SetInfo>) {
         activity?.let {
             if (it is MainActivity) {
                 it.updateTitle(tabPosition, result.size)
@@ -102,10 +102,10 @@ class SetListFragment : Fragment() {
         sets_list.adapter = setListAdapter
     }
 
-    private fun openSet(legoSet: LegoSet) {
+    private fun openSet(setInfo: SetInfo) {
         startActivity(
                 Intent(context, SetActivity::class.java).apply {
-                    putExtra(SetActivity.SET_NUMBER, legoSet.number)
+                    putExtra(SetActivity.SET_NUMBER, setInfo.number)
                 }
         )
     }

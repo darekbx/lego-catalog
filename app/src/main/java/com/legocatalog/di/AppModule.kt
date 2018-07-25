@@ -2,9 +2,9 @@ package com.legocatalog.di
 
 import android.content.Context
 import com.legocatalog.LegoCatalogApp
-import com.legocatalog.repository.Repository
-import com.legocatalog.repository.firebase.FirebaseAuthentication
-import com.legocatalog.repository.firebase.FirebaseDatabase
+import com.legocatalog.data.repository.Repository
+import com.legocatalog.data.remote.firebase.FirebaseAuthentication
+import com.legocatalog.data.remote.firebase.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

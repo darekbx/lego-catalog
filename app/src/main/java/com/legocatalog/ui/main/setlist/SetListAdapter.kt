@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.legocatalog.databinding.AdapterSetBinding
-import com.legocatalog.model.LegoSet
+import com.legocatalog.ui.model.SetInfo
 import com.squareup.picasso.Picasso
 
 @BindingAdapter("app:imageUri")
@@ -15,13 +15,13 @@ fun setImageUrl(view: ImageView, url:String?) {
     Picasso.get().load(url).into(view)
 }
 
-class SetListAdapter(val context: Context, val onItemClick: (set: LegoSet) -> Unit)
+class SetListAdapter(val context: Context, val onItemClick: (set: SetInfo) -> Unit)
     : RecyclerView.Adapter<SetListAdapter.ViewHolder>() {
 
-    var legoSets = emptyList<LegoSet>()
+    var setInfos = emptyList<SetInfo>()
 
-    fun swapData(legoSets: List<LegoSet>) {
-        this.legoSets = legoSets
+    fun swapData(setInfos: List<SetInfo>) {
+        this.setInfos = setInfos
         notifyDataSetChanged()
     }
 
@@ -30,10 +30,10 @@ class SetListAdapter(val context: Context, val onItemClick: (set: LegoSet) -> Un
         return ViewHolder(binding)
     }
 
-    override fun getItemCount() = legoSets.size
+    override fun getItemCount() = setInfos.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val set = legoSets.get(position)
+        val set = setInfos.get(position)
         holder.bind(set, onItemClick)
     }
 
@@ -42,10 +42,10 @@ class SetListAdapter(val context: Context, val onItemClick: (set: LegoSet) -> Un
     class ViewHolder(val binding: AdapterSetBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(legoSet: LegoSet, onItemClick: (set: LegoSet) -> Unit) {
+        fun bind(setInfo: SetInfo, onItemClick: (set: SetInfo) -> Unit) {
             with(binding) {
-                set = legoSet
-                root.setOnClickListener { onItemClick(legoSet) }
+                set = setInfo
+                root.setOnClickListener { onItemClick(setInfo) }
                 executePendingBindings()
             }
         }

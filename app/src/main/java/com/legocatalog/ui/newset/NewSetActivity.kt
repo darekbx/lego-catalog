@@ -17,8 +17,8 @@ import com.legocatalog.LegoCatalogApp
 import com.legocatalog.R
 import com.legocatalog.extensions.hide
 import com.legocatalog.extensions.show
-import com.legocatalog.model.LegoSet
-import com.legocatalog.repository.remote.rebrickable.SetInfoWorker
+import com.legocatalog.data.repository.workers.SetInfoWorker
+import com.legocatalog.ui.model.SetInfo
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_new_set.*
@@ -31,7 +31,7 @@ class NewSetActivity: AppCompatActivity() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     internal lateinit var viewModel: NewSetViewModel
 
-    var loadedSet: LegoSet? = null
+    var loadedSet: SetInfo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,13 +82,13 @@ class NewSetActivity: AppCompatActivity() {
                 .setView(R.layout.dialog_type)
                 .show()
         with(dialog) {
-            findViewById<View>(R.id.type_duplo)?.setOnClickListener { saveSet(LegoSet.Theme.DUPLO) }
-            findViewById<View>(R.id.type_city)?.setOnClickListener { saveSet(LegoSet.Theme.CITY) }
-            findViewById<View>(R.id.type_technic)?.setOnClickListener { saveSet(LegoSet.Theme.TECHNIC) }
+            findViewById<View>(R.id.type_duplo)?.setOnClickListener { saveSet(SetInfo.Theme.DUPLO) }
+            findViewById<View>(R.id.type_city)?.setOnClickListener { saveSet(SetInfo.Theme.CITY) }
+            findViewById<View>(R.id.type_technic)?.setOnClickListener { saveSet(SetInfo.Theme.TECHNIC) }
         }
     }
 
-    private fun saveSet(theme: LegoSet.Theme) {
+    private fun saveSet(theme: SetInfo.Theme) {
         progress_container.show()
         loadedSet?.let {
             it.themeId = theme.ordinal
@@ -105,7 +105,7 @@ class NewSetActivity: AppCompatActivity() {
     }
 
     private fun notifySuccess(data:Data) {
-        loadedSet = LegoSet.fromMap(data.keyValueMap)
+        loadedSet = SetInfo.fromMap(data.keyValueMap)
         showSetInformations()
         hideKeyboard()
         hideProgress()
@@ -116,8 +116,8 @@ class NewSetActivity: AppCompatActivity() {
     }
 
     private fun showSetInformations() {
-        loadedSet?.let { legoSet ->
-            with(legoSet) {
+        loadedSet?.let { setInfo ->
+            with(setInfo) {
                 set_number.text = number
                 set_name.text = "$name ($year)"
                 set_part_count.text = getString(R.string.parts_count, partsCount)
@@ -126,9 +126,9 @@ class NewSetActivity: AppCompatActivity() {
         }
     }
 
-    private fun loadImage(legoSet: LegoSet) {
+    private fun loadImage(setInfo: SetInfo) {
         image_progress.show()
-        Picasso.get().load(legoSet.imageUrl).into(set_image, object : Callback {
+        Picasso.get().load(setInfo.imageUrl).into(set_image, object : Callback {
             override fun onSuccess() {
                 image_progress.hide()
             }
@@ -140,7 +140,7 @@ class NewSetActivity: AppCompatActivity() {
     }
 
     private fun notifyFailure(data: Data) {
-        val message = data.getString(SetInfoWorker.ERROR_MESSAGE_KEY, null) ?: getString(R.string.unknown_error)
+        val message = data.getString(SetInfoWorker.ERROR_MESSAGE_KEY) ?: getString(R.string.unknown_error)
         Snackbar.make(input, message, Snackbar.LENGTH_LONG).show()
         hideProgress()
     }

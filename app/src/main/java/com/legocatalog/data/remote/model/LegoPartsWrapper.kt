@@ -1,4 +1,4 @@
-package com.legocatalog.model
+package com.legocatalog.data.remote.model
 
 data class LegoPartsWrapper(
         val count: Int = 0,

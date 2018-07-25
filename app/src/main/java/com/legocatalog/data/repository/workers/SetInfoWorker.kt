@@ -1,16 +1,17 @@
-package com.legocatalog.repository.remote.rebrickable
+package com.legocatalog.data.repository.workers
 
-import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.toWorkData
 import com.google.gson.Gson
 import com.legocatalog.LegoCatalogApp
-import com.legocatalog.model.ErrorResponse
-import com.legocatalog.model.LegoPartsWrapper
+import com.legocatalog.data.remote.model.ErrorResponse
+import com.legocatalog.data.remote.model.LegoSet
+import com.legocatalog.data.remote.rebrickable.RebrickableService
+import com.legocatalog.ui.model.SetInfo
 import retrofit2.Response
 import javax.inject.Inject
 
-class PartsWorker: Worker() {
+class SetInfoWorker: Worker() {
 
     companion object {
         val NUMBER_KEY = "number_key"
@@ -24,9 +25,9 @@ class PartsWorker: Worker() {
         (applicationContext as LegoCatalogApp).appComponent.inject(this)
 
         try {
-            val numberKey = inputData.getString(NUMBER_KEY, null)
+            val numberKey = inputData.getString(NUMBER_KEY)
             if (numberKey != null) {
-                val response = rebrickableService.setParts(numberKey).execute()
+                val response = rebrickableService.setByNumber(numberKey).execute()
                 return when (response.isSuccessful) {
                     true -> {
                         handleSuccess(response)
@@ -45,7 +46,7 @@ class PartsWorker: Worker() {
         return Result.FAILURE
     }
 
-    private fun handleError(response: Response<LegoPartsWrapper>) {
+    private fun handleError(response: Response<LegoSet>) {
         val errorMessage = response.errorBody()?.string()
         errorMessage?.let {
             val errorModel = Gson().fromJson(it, ErrorResponse::class.java)
@@ -53,10 +54,10 @@ class PartsWorker: Worker() {
         }
     }
 
-    private fun handleSuccess(response: Response<LegoPartsWrapper>) {
-        Data.Builder().
+    private fun handleSuccess(response: Response<LegoSet>) {
         response.body()?.let {
-            outputData = it.results?
+            val set = SetInfo.fromLegoSet(it)
+            outputData = set.toMap().toWorkData()
         }
     }
 }

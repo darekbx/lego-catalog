@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable name="set" type="com.legocatalog.model.LegoSet" />
+        <variable name="set" type="com.legocatalog.ui.model.SetInfo" />
     </data>
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

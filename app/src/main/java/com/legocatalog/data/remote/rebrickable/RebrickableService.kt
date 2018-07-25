@@ -1,7 +1,7 @@
-package com.legocatalog.repository.remote.rebrickable
+package com.legocatalog.data.remote.rebrickable
 
-import com.legocatalog.model.LegoPartsWrapper
-import com.legocatalog.model.LegoSet
+import com.legocatalog.data.remote.model.LegoPartsWrapper
+import com.legocatalog.data.remote.model.LegoSet
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

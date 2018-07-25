@@ -9,7 +9,7 @@ import com.legocatalog.LegoCatalogApp
 import com.legocatalog.R
 import com.legocatalog.extensions.hide
 import com.legocatalog.extensions.show
-import com.legocatalog.model.LegoSet
+import com.legocatalog.ui.model.SetInfo
 import com.legocatalog.ui.partlist.PartListFragment
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
@@ -57,8 +57,8 @@ class SetActivity : AppCompatActivity() {
                 .commitAllowingStateLoss()
     }
 
-    private fun fillSet(legoSet: LegoSet) {
-        with(legoSet) {
+    private fun fillSet(setInfo: SetInfo) {
+        with(setInfo) {
             set_number.text = number
             set_part_count.text = getString(R.string.parts_count, partsCount)
             supportActionBar?.title = "$name ($year)"
@@ -66,9 +66,9 @@ class SetActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadImage(legoSet: LegoSet) {
+    private fun loadImage(setInfo: SetInfo) {
         image_progress.show()
-        Picasso.get().load(legoSet.imageUrl).into(set_image, object : Callback {
+        Picasso.get().load(setInfo.imageUrl).into(set_image, object : Callback {
             override fun onSuccess() {
                 image_progress.hide()
             }

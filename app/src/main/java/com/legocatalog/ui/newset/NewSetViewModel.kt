@@ -7,9 +7,9 @@ import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkStatus
-import com.legocatalog.model.LegoSet
-import com.legocatalog.repository.Repository
-import com.legocatalog.repository.remote.rebrickable.SetInfoWorker
+import com.legocatalog.data.repository.Repository
+import com.legocatalog.data.repository.workers.SetInfoWorker
+import com.legocatalog.ui.model.SetInfo
 import javax.inject.Inject
 
 class NewSetViewModel @Inject constructor(val repository: Repository): ViewModel() {
@@ -32,7 +32,7 @@ class NewSetViewModel @Inject constructor(val repository: Repository): ViewModel
         }
     }
 
-    fun saveSet(set: LegoSet) {
+    fun saveSet(set: SetInfo) {
         repository.saveItem(set)
                 .addOnSuccessListener { result.value = (true to "") }
                 .addOnFailureListener { error -> result.value = (false to error.toString()) }

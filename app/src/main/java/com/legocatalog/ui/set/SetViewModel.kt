@@ -2,13 +2,13 @@ package com.legocatalog.ui.set
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.legocatalog.model.LegoSet
-import com.legocatalog.repository.Repository
+import com.legocatalog.data.repository.Repository
+import com.legocatalog.ui.model.SetInfo
 import javax.inject.Inject
 
 class SetViewModel @Inject constructor(val repository: Repository): ViewModel() {
 
-    val set = MutableLiveData<LegoSet>()
+    val set = MutableLiveData<SetInfo>()
     val message = MutableLiveData<String>()
 
     fun loadSet(number: String) {
