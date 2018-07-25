@@ -8,6 +8,4 @@ data class LegoPart(
         @SerializedName("part_cat_id") val partCatalogId: Int = 0,
         @SerializedName("part_img_url") val partImageUrl: String = "",
         @SerializedName("part_url") val partUrl: String = ""
-        ) {
-
-}
+        )
