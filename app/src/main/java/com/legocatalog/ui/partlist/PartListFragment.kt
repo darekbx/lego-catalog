@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.work.State
 import com.legocatalog.LegoCatalogApp
 import com.legocatalog.R
 import javax.inject.Inject
@@ -42,30 +41,14 @@ class PartListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setNumber?.let { setNumber ->
-            viewModel.fetchSetParts(setNumber)
+            viewModel.loadParts(setNumber)
+
+            viewModel.parts?.observe(this, Observer {
+                Log.v("-------------", "Size: ${it?.size}")
+            })
         }
-        observeChanges()
     }
 
-    fun observeChanges() {
-        viewModel.workStatus?.observe(this, Observer { workStatus ->
-            workStatus?.let {
-                when (workStatus.state) {
-                    State.SUCCEEDED -> {
-                        setNumber?.let { setNumber ->
-                            viewModel.loadParts(setNumber)
-                        }
-                        viewModel.parts?.observe(this, Observer {
-                            Log.v("-------------", "Size: ${it?.size}")
-                        })
-                    }
-                    State.FAILED -> {
-                    }
-                    else -> { }
-                }
-            }
-        })
-    }
 
     val setNumber by lazy { arguments?.getString(PartListFragment.SET_NUMBER) }
 }

@@ -4,13 +4,31 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.legocatalog.data.local.LegoDatabase
+import com.legocatalog.data.local.PartEntity
 import com.legocatalog.data.remote.firebase.FirebaseDatabase
+import com.legocatalog.data.remote.model.LegoPartsWrapper
 import com.legocatalog.ui.model.SetInfo
 import java.util.*
 
 class Repository(val firebaseDatabase: FirebaseDatabase, val legoDatabase: LegoDatabase) {
 
     fun fetchParts(setNumber: String) = legoDatabase.getDao().fetch(setNumber)
+
+    fun addParts(wrapper: LegoPartsWrapper) {
+        with(legoDatabase) {
+            beginTransaction()
+            val dao = getDao()
+            try {
+                wrapper.results?.forEach {
+                    val partEntity = PartEntity.mapLegoPartToEntity(it)
+                    dao.add(partEntity)
+                }
+                setTransactionSuccessful()
+            } finally {
+                endTransaction()
+            }
+        }
+    }
 
     fun fetchItems(theme: SetInfo.Theme,
                    onMessage: (message: String) -> Unit,

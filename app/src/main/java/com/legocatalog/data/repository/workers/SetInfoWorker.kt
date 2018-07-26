@@ -5,8 +5,10 @@ import androidx.work.toWorkData
 import com.google.gson.Gson
 import com.legocatalog.LegoCatalogApp
 import com.legocatalog.data.remote.model.ErrorResponse
+import com.legocatalog.data.remote.model.LegoPartsWrapper
 import com.legocatalog.data.remote.model.LegoSet
 import com.legocatalog.data.remote.rebrickable.RebrickableService
+import com.legocatalog.data.repository.Repository
 import com.legocatalog.ui.model.SetInfo
 import retrofit2.Response
 import javax.inject.Inject
@@ -21,29 +23,59 @@ class SetInfoWorker: Worker() {
     @Inject
     lateinit var rebrickableService: RebrickableService
 
+    @Inject
+    lateinit var repository: Repository
+
     override fun doWork(): Result {
         (applicationContext as LegoCatalogApp).appComponent.inject(this)
 
         try {
             val numberKey = inputData.getString(NUMBER_KEY)
             if (numberKey != null) {
-                val response = rebrickableService.setByNumber(numberKey).execute()
-                return when (response.isSuccessful) {
-                    true -> {
-                        handleSuccess(response)
-                        return Result.SUCCESS
-                    }
-                    else -> {
-                        handleError(response)
-                        return Result.FAILURE
-                    }
-                }
+                return fetchSetInfo(numberKey)
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
         return Result.FAILURE
+    }
+
+    private fun fetchSetInfo(number: String): Result {
+        val response = rebrickableService.setByNumber(number).execute()
+        return when (response.isSuccessful) {
+            true -> {
+                val result = fetchSetParts(number)
+                if (result) {
+                    handleSuccess(response)
+                    return Result.SUCCESS
+                } else {
+                    handleError(response)
+                    return Result.FAILURE
+                }
+            }
+            else -> {
+                handleError(response)
+                return Result.FAILURE
+            }
+        }
+    }
+
+    private fun fetchSetParts(number: String): Boolean {
+        val response = rebrickableService.setParts(number).execute()
+        return when (response.isSuccessful) {
+            true -> {
+                saveParts(response)
+                true
+            }
+            else -> false
+        }
+    }
+
+    private fun saveParts(response: Response<LegoPartsWrapper>) {
+        response.body()?.let {
+            repository.addParts(it)
+        }
     }
 
     private fun handleError(response: Response<LegoSet>) {

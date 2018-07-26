@@ -3,6 +3,7 @@ package com.legocatalog.data.local
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import com.legocatalog.data.remote.model.LegoSetPart
 
 @Entity(tableName = "part")
 data class PartEntity(
@@ -20,4 +21,26 @@ data class PartEntity(
         @ColumnInfo(name = "name") var name: String? = null,
         @ColumnInfo(name = "part_num") var partNumber: String? = null,
         @ColumnInfo(name = "part_img_url") var partImgUrl: String? = null
-)
+) {
+
+    companion object {
+        fun mapLegoPartToEntity(legoSetPart: LegoSetPart): PartEntity {
+            with(legoSetPart) {
+                return PartEntity(
+                        null,
+                        setNumber,
+                        quantity,
+                        isSpare,
+                        numSets,
+                        elementId,
+                        color?.name,
+                        color?.rgb,
+                        color?.isTransparent ?: false,
+                        part?.name,
+                        part?.partNumber,
+                        part?.partImageUrl
+                )
+            }
+        }
+    }
+}
