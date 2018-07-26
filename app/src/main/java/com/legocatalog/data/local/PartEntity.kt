@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import com.legocatalog.data.remote.model.LegoSetPart
+import com.legocatalog.ui.model.Part
 
 @Entity(tableName = "part")
 data class PartEntity(
@@ -39,6 +40,19 @@ data class PartEntity(
                         part?.name,
                         part?.partNumber,
                         part?.partImageUrl
+                )
+            }
+        }
+
+        fun mapToPart(partEntity: PartEntity): Part {
+            with(partEntity) {
+                return Part(
+                        quantity,
+                        numSets
+                        , colorName,
+                        name,
+                        partNumber,
+                        partImgUrl
                 )
             }
         }

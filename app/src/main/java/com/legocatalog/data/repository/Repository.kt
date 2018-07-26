@@ -21,6 +21,9 @@ class Repository(val firebaseDatabase: FirebaseDatabase, val legoDatabase: LegoD
             try {
                 wrapper.results?.forEach {
                     val partEntity = PartEntity.mapLegoPartToEntity(it)
+
+                    // TODO: add or update quantity is already exits
+
                     dao.add(partEntity)
                 }
                 setTransactionSuccessful()
