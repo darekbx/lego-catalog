@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.work.State
 import com.legocatalog.LegoCatalogApp
 import com.legocatalog.R
@@ -32,7 +31,6 @@ class PartListFragment : Fragment() {
         }
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[PartsListViewModel::class.java]
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -44,20 +42,24 @@ class PartListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setNumber?.let { setNumber ->
-            viewModel.loadSetParts(setNumber)
+            viewModel.fetchSetParts(setNumber)
         }
+        observeChanges()
     }
 
     fun observeChanges() {
         viewModel.workStatus?.observe(this, Observer { workStatus ->
             workStatus?.let {
-
                 when (workStatus.state) {
                     State.SUCCEEDED -> {
-                        Log.v("---", "aa")
+                        setNumber?.let { setNumber ->
+                            viewModel.loadParts(setNumber)
+                        }
+                        viewModel.parts?.observe(this, Observer {
+                            Log.v("-------------", "Size: ${it?.size}")
+                        })
                     }
                     State.FAILED -> {
-                        Log.v("---", "bb")
                     }
                     else -> { }
                 }

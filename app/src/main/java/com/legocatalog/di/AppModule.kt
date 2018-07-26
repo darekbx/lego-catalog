@@ -2,6 +2,7 @@ package com.legocatalog.di
 
 import android.content.Context
 import com.legocatalog.LegoCatalogApp
+import com.legocatalog.data.local.LegoDatabase
 import com.legocatalog.data.repository.Repository
 import com.legocatalog.data.remote.firebase.FirebaseAuthentication
 import com.legocatalog.data.remote.firebase.FirebaseDatabase
@@ -26,5 +27,6 @@ class AppModule(val application: LegoCatalogApp) {
     fun provideFirebaseDatabase() = FirebaseDatabase()
 
     @Provides
-    fun provideRepository(firebaseDatabase: FirebaseDatabase) = Repository(firebaseDatabase)
+    fun provideRepository(firebaseDatabase: FirebaseDatabase, legoDatabase: LegoDatabase)
+            = Repository(firebaseDatabase, legoDatabase)
 }

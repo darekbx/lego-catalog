@@ -3,11 +3,14 @@ package com.legocatalog.data.repository
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.legocatalog.data.local.LegoDatabase
 import com.legocatalog.data.remote.firebase.FirebaseDatabase
 import com.legocatalog.ui.model.SetInfo
 import java.util.*
 
-class Repository(val firebaseDatabase: FirebaseDatabase) {
+class Repository(val firebaseDatabase: FirebaseDatabase, val legoDatabase: LegoDatabase) {
+
+    fun fetchParts(setNumber: String) = legoDatabase.getDao().fetch(setNumber)
 
     fun fetchItems(theme: SetInfo.Theme,
                    onMessage: (message: String) -> Unit,

@@ -1,12 +1,14 @@
 package com.legocatalog.data.repository.workers
 
-import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.toWorkData
 import com.google.gson.Gson
 import com.legocatalog.LegoCatalogApp
+import com.legocatalog.data.local.LegoDatabase
+import com.legocatalog.data.local.PartEntity
 import com.legocatalog.data.remote.model.ErrorResponse
 import com.legocatalog.data.remote.model.LegoPartsWrapper
+import com.legocatalog.data.remote.model.LegoSetPart
 import com.legocatalog.data.remote.rebrickable.RebrickableService
 import retrofit2.Response
 import javax.inject.Inject
@@ -20,6 +22,9 @@ class PartsWorker: Worker() {
 
     @Inject
     lateinit var rebrickableService: RebrickableService
+
+    @Inject
+    lateinit var legoDatabase: LegoDatabase
 
     override fun doWork(): Result {
         (applicationContext as LegoCatalogApp).appComponent.inject(this)
@@ -56,11 +61,38 @@ class PartsWorker: Worker() {
 
     private fun handleSuccess(response: Response<LegoPartsWrapper>) {
         response.body()?.let {
-            val dataBuilder = Data.Builder()
+            with(legoDatabase) {
+                beginTransaction()
+                val dao = getDao()
+                try {
+                    it.results?.forEach {
+                        val partEntity = mapLegoPartToEntity(it)
+                        dao.add(partEntity)
+                    }
+                    setTransactionSuccessful()
+                } finally {
+                    endTransaction()
+                }
+            }
+        }
+    }
 
-            // TODO
-            outputData = dataBuilder.build()
-
+    private fun mapLegoPartToEntity(legoSetPart: LegoSetPart): PartEntity {
+        with(legoSetPart) {
+            return PartEntity(
+                    null,
+                    setNumber,
+                    quantity,
+                    isSpare,
+                    numSets,
+                    elementId,
+                    color?.name,
+                    color?.rgb,
+                    color?.isTransparent ?: false,
+                    part?.name,
+                    part?.partNumber,
+                    part?.partImageUrl
+            )
         }
     }
 }

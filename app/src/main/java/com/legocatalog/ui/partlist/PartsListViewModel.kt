@@ -6,6 +6,7 @@ import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkStatus
+import com.legocatalog.data.local.PartEntity
 import com.legocatalog.data.repository.Repository
 import com.legocatalog.data.repository.workers.PartsWorker
 import javax.inject.Inject
@@ -13,8 +14,9 @@ import javax.inject.Inject
 class PartsListViewModel @Inject constructor(val repository: Repository): ViewModel() {
 
     var workStatus: LiveData<WorkStatus>? = null
+    var parts: LiveData<List<PartEntity>>? = null
 
-    fun loadSetParts(setNumber: String) {
+    fun fetchSetParts(setNumber: String) {
         val data = Data.Builder()
                 .putString(PartsWorker.NUMBER_KEY, setNumber)
                 .build()
@@ -22,10 +24,14 @@ class PartsListViewModel @Inject constructor(val repository: Repository): ViewMo
                 .setInputData(data)
                 .build()
         WorkManager.getInstance()?.let {
-            with (it) {
+            with(it) {
                 enqueue(work)
                 workStatus = getStatusById(work.id)
             }
         }
+    }
+
+    fun loadParts(setNumber: String) {
+        parts = repository.fetchParts(setNumber)
     }
 }
