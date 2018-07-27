@@ -1,19 +1,11 @@
 package com.legocatalog.ui.main.setlist
 
 import android.content.Context
-import android.databinding.BindingAdapter
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import com.legocatalog.databinding.AdapterSetBinding
 import com.legocatalog.ui.model.SetInfo
-import com.squareup.picasso.Picasso
-
-@BindingAdapter("app:imageUri")
-fun setImageUrl(view: ImageView, url:String?) {
-    Picasso.get().load(url).into(view)
-}
 
 class SetListAdapter(val context: Context, val onItemClick: (set: SetInfo) -> Unit)
     : RecyclerView.Adapter<SetListAdapter.ViewHolder>() {

@@ -7,6 +7,7 @@
     <string name="add_button">Add to my sets</string>
     <string name="set_type_title">Choose type</string>
     <string name="summary">Parts: %d</string>
+    <string name="quantity">x%d</string>
 
     <string name="type_duplo">Duplo</string>
     <string name="type_city">City</string>

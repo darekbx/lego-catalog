@@ -1,12 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="part" type="com.legocatalog.ui.model.Part" />
     </data>
     <android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/out_padding"
+        android:paddingEnd="@dimen/out_padding"
+        android:paddingTop="@dimen/in_padding"
+        >
+
+        <ImageView
+            android:id="@+id/part_image"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:paddingBottom="2dp"
+            android:layout_marginTop="2dp"
+            app:imageUri="@{part.partImgUrl}"
+            tools:src="@mipmap/ic_launcher"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:scaleType="centerInside"
+            />
+
+        <TextView
+            android:id="@+id/part_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{part.name}"
+            tools:text="Brick 2x2"
+            app:layout_constraintTop_toTopOf="@id/part_image"
+            app:layout_constraintStart_toEndOf="@id/part_image"
+            app:layout_constraintEnd_toStartOf="@id/quantity"
+            android:layout_marginStart="@dimen/in_padding"
+            android:ellipsize="end"
+            android:paddingEnd="@dimen/in_padding"
+            android:lines="1"
+            style="@style/smallText"
+            />
+        <TextView
+            android:id="@+id/color_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/part_name"
+            app:layout_constraintTop_toBottomOf="@id/part_name"
+            android:text="@{part.colorName}"
+            tools:text="Black"
+            style="@style/tinyText"
+            />
+
+        <TextView
+            android:id="@+id/quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/part_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@{@string/quantity(part.quantity)}"
+            tools:text="Quantity: 19"
+            style="@style/tinyText"
+            />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

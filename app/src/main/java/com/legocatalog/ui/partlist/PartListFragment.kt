@@ -3,14 +3,17 @@ package com.legocatalog.ui.partlist
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.legocatalog.LegoCatalogApp
 import com.legocatalog.R
+import kotlinx.android.synthetic.main.fragment_part_list.*
 import javax.inject.Inject
 
 class PartListFragment : Fragment() {
@@ -18,6 +21,8 @@ class PartListFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     internal lateinit var viewModel: PartsListViewModel
+
+    lateinit var adapter: PartListAdapter
 
     companion object {
         val SET_NUMBER = "set_number_key"
@@ -40,15 +45,33 @@ class PartListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setNumber?.let { setNumber ->
-            viewModel.loadParts(setNumber)
+        adapter = PartListAdapter(view.context, { part -> })
 
-            viewModel.parts?.observe(this, Observer {
-                Log.v("-------------", "Size: ${it?.size}")
-            })
+        initializeList(view)
+
+        setNumber?.let { setNumber ->
+            with(viewModel) {
+                loadParts(setNumber)
+                parts?.observe(this@PartListFragment, Observer {
+                    it?.let {
+                        view.post {
+                            adapter.swapData(it)
+                        }
+                    }
+                })
+            }
         }
     }
 
+    private fun initializeList(view: View) {
+        val layoutManager = LinearLayoutManager(view.context)
+        val color = resources.getColor(R.color.colorAccent, activity?.theme)
+        val divider = DividerItemDecoration(parts_list.context, layoutManager.orientation)
+                .apply { setDrawable(ColorDrawable(color)) }
+        parts_list.addItemDecoration(divider)
+        parts_list.layoutManager = layoutManager
+        parts_list.adapter = adapter
+    }
 
     val setNumber by lazy { arguments?.getString(PartListFragment.SET_NUMBER) }
 }
