@@ -8,8 +8,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/out_padding"
-        android:paddingEnd="@dimen/out_padding"
+        android:paddingStart="@dimen/in_padding"
+        android:paddingEnd="@dimen/in_padding"
         android:paddingTop="@dimen/in_padding"
         >
 

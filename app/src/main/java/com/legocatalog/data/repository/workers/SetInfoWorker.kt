@@ -4,12 +4,12 @@ import androidx.work.Worker
 import androidx.work.toWorkData
 import com.google.gson.Gson
 import com.legocatalog.LegoCatalogApp
+import com.legocatalog.data.local.SetEntity
 import com.legocatalog.data.remote.model.ErrorResponse
 import com.legocatalog.data.remote.model.LegoPartsWrapper
 import com.legocatalog.data.remote.model.LegoSet
 import com.legocatalog.data.remote.rebrickable.RebrickableService
 import com.legocatalog.data.repository.Repository
-import com.legocatalog.ui.model.SetInfo
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -45,12 +45,18 @@ class SetInfoWorker: Worker() {
         val response = rebrickableService.setByNumber(number).execute()
         return when (response.isSuccessful) {
             true -> {
-                val result = fetchSetParts(number)
-                if (result) {
-                    handleSuccess(response)
-                    return Result.SUCCESS
+                val setId = saveSet(response)
+                if (setId != null) {
+                    val result = fetchSetParts(setId, number)
+                    if (result) {
+                        handleSuccess(response)
+                        return Result.SUCCESS
+                    } else {
+                        handleError(response)
+                        return Result.FAILURE
+                    }
                 } else {
-                    handleError(response)
+                    handleError("Unable to save set")
                     return Result.FAILURE
                 }
             }
@@ -61,20 +67,26 @@ class SetInfoWorker: Worker() {
         }
     }
 
-    private fun fetchSetParts(number: String): Boolean {
+    private fun fetchSetParts(setId: Long, number: String): Boolean {
         val response = rebrickableService.setParts(number).execute()
         return when (response.isSuccessful) {
             true -> {
-                saveParts(response)
+                saveParts(setId, response)
                 true
             }
             else -> false
         }
     }
 
-    private fun saveParts(response: Response<LegoPartsWrapper>) {
+    private fun saveSet(response: Response<LegoSet>): Long? {
+        return response.body()?.let {
+            repository.addSet(it)
+        }
+    }
+
+    private fun saveParts(setId:Long, response: Response<LegoPartsWrapper>) {
         response.body()?.let {
-            repository.addParts(it)
+            repository.addParts(setId, it)
         }
     }
 
@@ -86,9 +98,13 @@ class SetInfoWorker: Worker() {
         }
     }
 
+    private fun handleError(message: String) {
+        outputData = mapOf(ERROR_MESSAGE_KEY to message).toWorkData()
+    }
+
     private fun handleSuccess(response: Response<LegoSet>) {
         response.body()?.let {
-            val set = SetInfo.fromLegoSet(it)
+            val set = SetEntity.fromLegoSet(it)
             outputData = set.toMap().toWorkData()
         }
     }

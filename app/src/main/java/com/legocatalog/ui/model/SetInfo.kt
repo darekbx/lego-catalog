@@ -23,10 +23,6 @@ data class SetInfo(
 
     companion object {
 
-        fun fromLegoSet(setInfo: LegoSet) =
-                SetInfo(setInfo.number, setInfo.name, setInfo.year,
-                        setInfo.themeId, setInfo.partsCount, setInfo.imageUrl)
-        
         fun fromMap(map: Map<String, Any>) = SetInfo(
                 map["number"] as String,
                 map["name"] as String,

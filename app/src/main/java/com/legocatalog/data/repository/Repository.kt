@@ -7,6 +7,7 @@ import com.legocatalog.data.local.LegoDatabase
 import com.legocatalog.data.local.PartEntity
 import com.legocatalog.data.remote.firebase.FirebaseDatabase
 import com.legocatalog.data.remote.model.LegoPartsWrapper
+import com.legocatalog.data.remote.model.LegoSet
 import com.legocatalog.ui.model.SetInfo
 import java.util.*
 
@@ -14,7 +15,11 @@ class Repository(val firebaseDatabase: FirebaseDatabase, val legoDatabase: LegoD
 
     fun fetchParts(setNumber: String) = legoDatabase.getDao().fetch(setNumber)
 
-    fun addParts(wrapper: LegoPartsWrapper) {
+    fun addSet(set: LegoSet): Long {
+
+    }
+
+    fun addParts(setId: Long, wrapper: LegoPartsWrapper) {
         with(legoDatabase) {
             beginTransaction()
             val dao = getDao()
