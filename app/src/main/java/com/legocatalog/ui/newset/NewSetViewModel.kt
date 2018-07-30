@@ -17,6 +17,8 @@ class NewSetViewModel @Inject constructor(val repository: Repository): ViewModel
     var result: MutableLiveData<Pair<Boolean,String>> = MutableLiveData()
     var workStatus: LiveData<WorkStatus>? = null
 
+    SetInforWorker will save set when fetched, not when saved to firebase
+
     fun discoverSetInfo(setNumber: String) {
         val data = Data.Builder()
                 .putString(SetInfoWorker.NUMBER_KEY, setNumber)

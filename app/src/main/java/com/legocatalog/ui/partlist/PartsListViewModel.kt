@@ -12,9 +12,9 @@ class PartsListViewModel @Inject constructor(val repository: Repository): ViewMo
 
     var parts: LiveData<List<Part>>? = null
 
-    fun loadParts(setNumber: String) {
+    fun loadParts(setId: Long) {
         parts = Transformations
-                .map(repository.fetchParts(setNumber), { partEntities ->
+                .map(repository.fetchParts(setId), { partEntities ->
                     partEntities.map { PartEntity.mapToPart(it) }
                 })
     }

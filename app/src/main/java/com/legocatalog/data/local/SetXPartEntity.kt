@@ -8,6 +8,6 @@ import android.arch.persistence.room.PrimaryKey
 data class SetXPartEntity(
         @PrimaryKey(autoGenerate = true) var id: Long? = null,
         @ColumnInfo(name = "set_id") var setId: Long = 0L,
-        @ColumnInfo(name = "element_id") var elementId: Long = 0L,
+        @ColumnInfo(name = "element_id") var elementId: String? = null,
         @ColumnInfo(name = "quantity") var quantity: Int = 0
 )

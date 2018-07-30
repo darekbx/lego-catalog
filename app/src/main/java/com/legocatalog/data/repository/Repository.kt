@@ -5,19 +5,18 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.legocatalog.data.local.LegoDatabase
 import com.legocatalog.data.local.PartEntity
+import com.legocatalog.data.local.SetEntity
+import com.legocatalog.data.local.SetXPartEntity
 import com.legocatalog.data.remote.firebase.FirebaseDatabase
 import com.legocatalog.data.remote.model.LegoPartsWrapper
-import com.legocatalog.data.remote.model.LegoSet
 import com.legocatalog.ui.model.SetInfo
 import java.util.*
 
 class Repository(val firebaseDatabase: FirebaseDatabase, val legoDatabase: LegoDatabase) {
 
-    fun fetchParts(setNumber: String) = legoDatabase.getDao().fetch(setNumber)
+    fun fetchParts(setId: Long) = legoDatabase.getDao().fetch(setId)
 
-    fun addSet(set: LegoSet): Long {
-
-    }
+    fun addSet(setEntity: SetEntity) = legoDatabase.getDao().add(setEntity)
 
     fun addParts(setId: Long, wrapper: LegoPartsWrapper) {
         with(legoDatabase) {
@@ -25,11 +24,12 @@ class Repository(val firebaseDatabase: FirebaseDatabase, val legoDatabase: LegoD
             val dao = getDao()
             try {
                 wrapper.results?.forEach {
-                    val partEntity = PartEntity.mapLegoPartToEntity(it)
-
-                    // TODO: add or update quantity is already exits
-
-                    dao.add(partEntity)
+                    val partExists = dao.countByElementId(it.elementId) > 0
+                    if (!partExists) {
+                        val partEntity = PartEntity.mapLegoPartToEntity(it)
+                        dao.add(partEntity)
+                    }
+                    dao.add(SetXPartEntity(null, setId, it.elementId, it.quantity))
                 }
                 setTransactionSuccessful()
             } finally {

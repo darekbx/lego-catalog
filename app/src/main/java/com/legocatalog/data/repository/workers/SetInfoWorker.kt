@@ -80,7 +80,7 @@ class SetInfoWorker: Worker() {
 
     private fun saveSet(response: Response<LegoSet>): Long? {
         return response.body()?.let {
-            repository.addSet(it)
+            repository.addSet(SetEntity.mapLegoSetToEntity(it))
         }
     }
 

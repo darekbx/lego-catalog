@@ -25,7 +25,7 @@ class PartListFragment : Fragment() {
     lateinit var adapter: PartListAdapter
 
     companion object {
-        val SET_NUMBER = "set_number_key"
+        val SET_ID = "set_id_key"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,5 +73,5 @@ class PartListFragment : Fragment() {
         parts_list.adapter = adapter
     }
 
-    val setNumber by lazy { arguments?.getString(PartListFragment.SET_NUMBER) }
+    val setNumber by lazy { arguments?.getLong(PartListFragment.SET_ID) }
 }

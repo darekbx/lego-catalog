@@ -48,7 +48,10 @@ class SetActivity : AppCompatActivity() {
     private fun initPartsFragment() {
         val fragment = PartListFragment().apply {
             arguments = Bundle(1).apply {
-                putString(PartListFragment.SET_NUMBER, this@SetActivity.setNumber)
+
+                fetch setid by set number from db
+
+                putLong(PartListFragment.SET_ID, this@SetActivity.setNumber)
             }
         }
         supportFragmentManager
