@@ -40,16 +40,14 @@ class NewSetActivity: AppCompatActivity() {
         (application as LegoCatalogApp).appComponent.inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[NewSetViewModel::class.java]
-        with(viewModel) {
-            result.observe(this@NewSetActivity, Observer { result ->
-                result?.let { result ->
-                    when (result.first) {
-                        true -> observeSaveChanges()
-                        else -> onError(result.second)
-                    }
+        viewModel.result.observe(this@NewSetActivity, Observer { result ->
+            result?.let { result ->
+                when (result.first) {
+                    true -> observeSaveChanges()
+                    else -> onError(result.second)
                 }
-            })
-        }
+            }
+        })
 
         input.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -62,9 +60,8 @@ class NewSetActivity: AppCompatActivity() {
     }
 
     fun observeChanges() {
-        viewModel.workStatus?.observe(this, Observer { workStatus ->
+        viewModel.workStatus.observe(this, Observer { workStatus ->
             workStatus?.let {
-                progress_container.hide()
                 when (workStatus.state) {
                     State.SUCCEEDED -> notifySuccess(workStatus.outputData)
                     State.FAILED -> notifyFailure(workStatus.outputData)
@@ -75,14 +72,13 @@ class NewSetActivity: AppCompatActivity() {
     }
 
     private fun observeSaveChanges() {
-        viewModel.saveWorkStatus?.observe(this, Observer { workStatus ->
+        viewModel.saveWorkStatus.observe(this, Observer { workStatus ->
             workStatus?.let {
                 progress_container.hide()
                 when (workStatus.state) {
                     State.SUCCEEDED -> onSuccess()
                     State.FAILED -> notifyFailure(workStatus.outputData)
-                    else -> {
-                    }
+                    else -> { }
                 }
             }
         })

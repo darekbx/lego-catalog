@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -42,12 +41,6 @@ class SetListFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[SetListViewModel::class.java]
     }
 
-    private fun showMessage(message: String?) {
-        message?.let { message ->
-            Snackbar.make(sets_list, message, Snackbar.LENGTH_LONG).show()
-        }
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_set_list, container, false)
@@ -62,18 +55,13 @@ class SetListFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        with(viewModel) {
-            message.observe(this@SetListFragment, Observer { message ->
-                showMessage(message)
-            })
-            sets?.observe(this@SetListFragment, Observer { result ->
-                result?.let {
-                    setListAdapter.swapData(result)
-                    displaySummary(result)
-                    updateTabTitle(result)
-                }
-            })
-        }
+        viewModel.sets.observe(this@SetListFragment, Observer { result ->
+            result?.let {
+                setListAdapter.swapData(result)
+                displaySummary(result)
+                updateTabTitle(result)
+            }
+        })
     }
 
     private fun displaySummary(result: List<SetInfo>) {

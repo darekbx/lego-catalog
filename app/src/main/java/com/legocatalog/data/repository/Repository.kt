@@ -15,9 +15,8 @@ import java.util.*
 class Repository(val firebaseDatabase: FirebaseDatabase, val legoDatabase: LegoDatabase) {
 
     fun fetchParts(setId: Int) = legoDatabase.getDao().fetchParts(setId)
-
     fun fetchSet(setId: Int) = legoDatabase.getDao().fetchSet(setId)
-
+    fun fetchSets(themeId: Int) = legoDatabase.getDao().fetchSets(themeId)
     fun addSet(setEntity: SetEntity) = legoDatabase.getDao().add(setEntity)
 
     fun addParts(setId: Int, wrapper: LegoPartsWrapper) {
@@ -39,8 +38,6 @@ class Repository(val firebaseDatabase: FirebaseDatabase, val legoDatabase: LegoD
             }
         }
     }
-
-    fun fetchSets(themeId: Int) = legoDatabase.getDao().fetchSets(themeId)
 
     fun fetchItems(theme: SetInfo.Theme,
                    onMessage: (message: String) -> Unit,

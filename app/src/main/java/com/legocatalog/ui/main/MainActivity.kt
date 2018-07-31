@@ -65,13 +65,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SIGN_IN_RESULT_CODE) {
-            authentication.handleAuthResponse(
-                    data,
-                    resultCode,
-                    { displayLoggedUser() },
-                    { displayAuthError(it) })
+        when (requestCode) {
+            SIGN_IN_RESULT_CODE -> handleAuthResponse(data, resultCode)
         }
+    }
+
+    private fun handleAuthResponse(data: Intent?, resultCode: Int) {
+        authentication.handleAuthResponse(
+                data,
+                resultCode,
+                { displayLoggedUser() },
+                { displayAuthError(it) })
     }
 
     private fun displayLoggedUser() {

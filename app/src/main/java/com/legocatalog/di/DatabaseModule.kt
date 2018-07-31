@@ -5,10 +5,12 @@ import android.content.Context
 import com.legocatalog.data.local.LegoDatabase
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
 class DatabaseModule {
 
+    @Singleton
     @Provides
     fun providesLegoDatabase(context: Context) =
             Room

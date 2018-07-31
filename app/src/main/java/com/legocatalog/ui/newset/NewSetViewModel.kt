@@ -15,9 +15,9 @@ import javax.inject.Inject
 
 class NewSetViewModel @Inject constructor(val repository: Repository): ViewModel() {
 
-    var result: MutableLiveData<Pair<Boolean, String>> = MutableLiveData()
-    var workStatus: LiveData<WorkStatus>? = null
-    var saveWorkStatus: LiveData<WorkStatus>? = null
+    val result: MutableLiveData<Pair<Boolean, String>> = MutableLiveData()
+    lateinit var workStatus: LiveData<WorkStatus>
+    lateinit var saveWorkStatus: LiveData<WorkStatus>
 
     fun discoverSetInfo(setNumber: String) {
         val data = Data.Builder()
