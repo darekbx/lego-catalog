@@ -3,8 +3,8 @@ package com.legocatalog.ui.partlist
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
-import com.legocatalog.data.local.PartEntity
 import com.legocatalog.data.repository.Repository
+import com.legocatalog.extensions.toPart
 import com.legocatalog.ui.model.Part
 import javax.inject.Inject
 
@@ -12,10 +12,10 @@ class PartsListViewModel @Inject constructor(val repository: Repository): ViewMo
 
     var parts: LiveData<List<Part>>? = null
 
-    fun loadParts(setId: Long) {
+    fun loadParts(setId: Int) {
         parts = Transformations
                 .map(repository.fetchParts(setId), { partEntities ->
-                    partEntities.map { PartEntity.mapToPart(it) }
+                    partEntities.map { it.toPart() }
                 })
     }
 }

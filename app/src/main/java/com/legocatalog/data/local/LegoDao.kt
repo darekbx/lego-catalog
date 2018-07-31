@@ -9,12 +9,26 @@ import android.arch.persistence.room.Query
 interface LegoDao {
 
     @Query("""
-        SELECT p.*, sxp.quantity
+        SELECT *
+        FROM `set`
+        WHERE theme_id = :themeId
+        """)
+    fun fetchSets(themeId: Int): LiveData<List<SetEntity>>
+
+    @Query("""
+        SELECT p.*, sxp.quantity AS quantity
         FROM setxpart AS sxp
         INNER JOIN part AS p ON p.element_id = sxp.element_id
         WHERE sxp.set_id = :setId
         """)
-    fun fetch(setId: Long): LiveData<List<PartEntity>>
+    fun fetchParts(setId: Int): LiveData<List<PartQuantityEntity>>
+
+    @Query("""
+        SELECT *
+        FROM `set`
+        WHERE id = :setId
+        """)
+    fun fetchSet(setId: Int): LiveData<SetEntity>
 
     @Query("""
         SELECT COUNT(id)

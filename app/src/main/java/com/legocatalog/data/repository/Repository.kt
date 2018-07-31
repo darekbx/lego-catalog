@@ -4,21 +4,23 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.legocatalog.data.local.LegoDatabase
-import com.legocatalog.data.local.PartEntity
 import com.legocatalog.data.local.SetEntity
 import com.legocatalog.data.local.SetXPartEntity
 import com.legocatalog.data.remote.firebase.FirebaseDatabase
 import com.legocatalog.data.remote.model.LegoPartsWrapper
+import com.legocatalog.extensions.toPartEntity
 import com.legocatalog.ui.model.SetInfo
 import java.util.*
 
 class Repository(val firebaseDatabase: FirebaseDatabase, val legoDatabase: LegoDatabase) {
 
-    fun fetchParts(setId: Long) = legoDatabase.getDao().fetch(setId)
+    fun fetchParts(setId: Int) = legoDatabase.getDao().fetchParts(setId)
+
+    fun fetchSet(setId: Int) = legoDatabase.getDao().fetchSet(setId)
 
     fun addSet(setEntity: SetEntity) = legoDatabase.getDao().add(setEntity)
 
-    fun addParts(setId: Long, wrapper: LegoPartsWrapper) {
+    fun addParts(setId: Int, wrapper: LegoPartsWrapper) {
         with(legoDatabase) {
             beginTransaction()
             val dao = getDao()
@@ -26,7 +28,7 @@ class Repository(val firebaseDatabase: FirebaseDatabase, val legoDatabase: LegoD
                 wrapper.results?.forEach {
                     val partExists = dao.countByElementId(it.elementId) > 0
                     if (!partExists) {
-                        val partEntity = PartEntity.mapLegoPartToEntity(it)
+                        val partEntity = it.toPartEntity()
                         dao.add(partEntity)
                     }
                     dao.add(SetXPartEntity(null, setId, it.elementId, it.quantity))
@@ -38,22 +40,25 @@ class Repository(val firebaseDatabase: FirebaseDatabase, val legoDatabase: LegoD
         }
     }
 
+    fun fetchSets(themeId: Int) = legoDatabase.getDao().fetchSets(themeId)
+
     fun fetchItems(theme: SetInfo.Theme,
                    onMessage: (message: String) -> Unit,
-                   onResult: (list: List<SetInfo>) -> Unit) =
-            firebaseDatabase
-                    .sets
-                    .orderByKey()
-                    .addValueEventListener(object : ValueEventListener {
+                   onResult: (list: List<SetInfo>) -> Unit) {
+         firebaseDatabase
+                .sets
+                .orderByKey()
+                .addValueEventListener(object : ValueEventListener {
 
-                        override fun onCancelled(error: DatabaseError) {
-                            onMessage(error.message)
-                        }
+                    override fun onCancelled(error: DatabaseError) {
+                        onMessage(error.message)
+                    }
 
-                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            childrenToList(dataSnapshot, theme, onResult)
-                        }
-                    })
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        childrenToList(dataSnapshot, theme, onResult)
+                    }
+                })
+    }
 
     fun saveItem(setInfo: SetInfo) =
             firebaseDatabase

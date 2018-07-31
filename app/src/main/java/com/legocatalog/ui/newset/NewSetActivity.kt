@@ -18,6 +18,7 @@ import com.legocatalog.R
 import com.legocatalog.extensions.hide
 import com.legocatalog.extensions.show
 import com.legocatalog.data.repository.workers.SetInfoWorker
+import com.legocatalog.extensions.fromMap
 import com.legocatalog.ui.model.SetInfo
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
@@ -43,7 +44,7 @@ class NewSetActivity: AppCompatActivity() {
             result.observe(this@NewSetActivity, Observer { result ->
                 result?.let { result ->
                     when (result.first) {
-                        true -> onSuccess()
+                        true -> observeSaveChanges()
                         else -> onError(result.second)
                     }
                 }
@@ -73,6 +74,20 @@ class NewSetActivity: AppCompatActivity() {
         })
     }
 
+    private fun observeSaveChanges() {
+        viewModel.saveWorkStatus?.observe(this, Observer { workStatus ->
+            workStatus?.let {
+                progress_container.hide()
+                when (workStatus.state) {
+                    State.SUCCEEDED -> onSuccess()
+                    State.FAILED -> notifyFailure(workStatus.outputData)
+                    else -> {
+                    }
+                }
+            }
+        })
+    }
+
     fun onAddSetClick(v: View) {
         showTypeDialog()
     }
@@ -82,9 +97,18 @@ class NewSetActivity: AppCompatActivity() {
                 .setView(R.layout.dialog_type)
                 .show()
         with(dialog) {
-            findViewById<View>(R.id.type_duplo)?.setOnClickListener { saveSet(SetInfo.Theme.DUPLO) }
-            findViewById<View>(R.id.type_city)?.setOnClickListener { saveSet(SetInfo.Theme.CITY) }
-            findViewById<View>(R.id.type_technic)?.setOnClickListener { saveSet(SetInfo.Theme.TECHNIC) }
+            findViewById<View>(R.id.type_duplo)?.setOnClickListener {
+                saveSet(SetInfo.Theme.DUPLO)
+                dialog.dismiss()
+            }
+            findViewById<View>(R.id.type_city)?.setOnClickListener {
+                saveSet(SetInfo.Theme.CITY)
+                dialog.dismiss()
+            }
+            findViewById<View>(R.id.type_technic)?.setOnClickListener {
+                saveSet(SetInfo.Theme.TECHNIC)
+                dialog.dismiss()
+            }
         }
     }
 
@@ -105,7 +129,7 @@ class NewSetActivity: AppCompatActivity() {
     }
 
     private fun notifySuccess(data:Data) {
-        loadedSet = SetInfo.fromMap(data.keyValueMap)
+        loadedSet = SetInfo().fromMap(data.keyValueMap)
         showSetInformations()
         hideKeyboard()
         hideProgress()

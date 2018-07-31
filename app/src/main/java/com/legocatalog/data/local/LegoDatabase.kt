@@ -3,7 +3,7 @@ package com.legocatalog.data.local
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 
-@Database(entities = arrayOf(PartEntity::class), version = 1)
+@Database(entities = arrayOf(PartEntity::class, SetEntity::class, SetXPartEntity::class), version = 1)
 abstract class LegoDatabase: RoomDatabase() {
 
     companion object {

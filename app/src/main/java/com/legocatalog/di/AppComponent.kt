@@ -1,6 +1,7 @@
 package com.legocatalog.di
 
 import com.legocatalog.data.repository.workers.SetInfoWorker
+import com.legocatalog.data.repository.workers.SetSaveWorker
 import com.legocatalog.ui.main.MainActivity
 import com.legocatalog.ui.main.setlist.SetListFragment
 import com.legocatalog.ui.newset.NewSetActivity
@@ -18,6 +19,7 @@ interface AppComponent {
     fun inject(setActivity: SetActivity)
 
     fun inject(worker: SetInfoWorker)
+    fun inject(worker: SetSaveWorker)
 
     fun inject(setListFragment: SetListFragment)
     fun inject(partListFragment: PartListFragment)

@@ -57,8 +57,8 @@ class SetListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initializeList(view)
-        observeViewModel()
         viewModel.loadSets(SetInfo.Theme.values()[tabPosition])
+        observeViewModel()
     }
 
     private fun observeViewModel() {
@@ -66,7 +66,7 @@ class SetListFragment : Fragment() {
             message.observe(this@SetListFragment, Observer { message ->
                 showMessage(message)
             })
-            sets.observe(this@SetListFragment, Observer { result ->
+            sets?.observe(this@SetListFragment, Observer { result ->
                 result?.let {
                     setListAdapter.swapData(result)
                     displaySummary(result)
@@ -77,7 +77,7 @@ class SetListFragment : Fragment() {
     }
 
     private fun displaySummary(result: List<SetInfo>) {
-        var partsCount = result.sumBy { set -> set.partsCount.toInt() }
+        var partsCount = result.sumBy { set -> set.partsCount?.toInt() ?: -1 }
         summary.text = getString(R.string.summary, partsCount)
     }
 
@@ -105,7 +105,7 @@ class SetListFragment : Fragment() {
     private fun openSet(setInfo: SetInfo) {
         startActivity(
                 Intent(context, SetActivity::class.java).apply {
-                    putExtra(SetActivity.SET_NUMBER, setInfo.number)
+                    putExtra(SetActivity.SET_ID, setInfo.id)
                 }
         )
     }

@@ -20,7 +20,7 @@ import javax.inject.Inject
 class SetActivity : AppCompatActivity() {
 
     companion object {
-        val SET_NUMBER = "set_number_key"
+        val SET_ID = "set_id_key"
     }
 
     @Inject
@@ -34,12 +34,12 @@ class SetActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[SetViewModel::class.java]
         with(viewModel) {
-            set.observe(this@SetActivity, Observer { set ->
+            loadSet(setId)
+            set?.observe(this@SetActivity, Observer { set ->
                 set?.let {
                     fillSet(it)
                 }
             })
-            loadSet(setNumber)
         }
 
         initPartsFragment()
@@ -48,10 +48,7 @@ class SetActivity : AppCompatActivity() {
     private fun initPartsFragment() {
         val fragment = PartListFragment().apply {
             arguments = Bundle(1).apply {
-
-                fetch setid by set number from db
-
-                putLong(PartListFragment.SET_ID, this@SetActivity.setNumber)
+                putInt(PartListFragment.SET_ID, this@SetActivity.setId)
             }
         }
         supportFragmentManager
@@ -82,5 +79,5 @@ class SetActivity : AppCompatActivity() {
         })
     }
 
-    val setNumber by lazy { intent.getStringExtra(SET_NUMBER) }
+    val setId by lazy { intent.getIntExtra(SET_ID, -1) }
 }

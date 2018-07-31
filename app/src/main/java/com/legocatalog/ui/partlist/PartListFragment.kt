@@ -73,5 +73,5 @@ class PartListFragment : Fragment() {
         parts_list.adapter = adapter
     }
 
-    val setNumber by lazy { arguments?.getLong(PartListFragment.SET_ID) }
+    val setNumber by lazy { arguments?.getInt(PartListFragment.SET_ID) }
 }
