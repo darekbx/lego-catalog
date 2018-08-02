@@ -45,7 +45,7 @@
             android:layout_marginLeft="@dimen/in_padding"
             android:paddingTop="4dp"
             tools:text="42055-1"
-            android:text="@{set.number}"
+            android:text="@{set.number + (set.moreThanOne ? ` (x` + set.setsCount + `)` : ``)}"
             style="@style/smallText"
             android:textStyle="bold"
             />

@@ -2,6 +2,7 @@ package com.legocatalog.extensions
 
 import com.legocatalog.data.local.PartEntity
 import com.legocatalog.data.local.PartQuantityEntity
+import com.legocatalog.data.local.SetCountEntity
 import com.legocatalog.data.local.SetEntity
 import com.legocatalog.data.remote.model.LegoSet
 import com.legocatalog.data.remote.model.LegoSetPart
@@ -11,7 +12,10 @@ import com.legocatalog.ui.model.SetInfo
 fun LegoSet.toSetEntity() = SetEntity(null, name, number, partsCount, themeId, year, imageUrl)
 fun LegoSet.toSetInfo() = SetInfo(-1, number, name, year, themeId, partsCount, imageUrl)
 
-fun SetEntity.toSetInfo() = SetInfo(id?.toInt() ?: 0, number, name, year, themeId, partsCount, imageUrl)
+fun SetCountEntity.toSetInfo() = SetInfo(set?.id?.toInt() ?: 0, set?.number, set?.name,
+        set?.year, set?.themeId ?: -1, set?.partsCount, set?.imageUrl, count)
+
+fun SetEntity.toSetInfo() = SetInfo(id?.toInt() ?: 0, number, name, year, themeId ?: -1, partsCount, imageUrl)
 
 fun SetInfo.toMap() = HashMap<String, Any>()
         .apply {

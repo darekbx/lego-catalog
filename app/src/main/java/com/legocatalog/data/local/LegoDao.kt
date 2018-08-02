@@ -11,9 +11,15 @@ interface LegoDao {
     @Query("""
         SELECT *
         FROM `set`
-        WHERE theme_id = :themeId
         """)
-    fun fetchSets(themeId: Int): LiveData<List<SetEntity>>
+    fun fetchSets(): LiveData<List<SetEntity>>
+
+    @Query("""
+        SELECT COUNT(id) AS `count`, *
+        FROM `set`
+        WHERE theme_id = :themeId GROUP BY number
+        """)
+    fun fetchSets(themeId: Int): LiveData<List<SetCountEntity>>
 
     @Query("""
         SELECT p.*, sxp.quantity AS quantity
