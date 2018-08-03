@@ -5,6 +5,7 @@ import com.legocatalog.data.repository.workers.SetSaveWorker
 import com.legocatalog.ui.main.MainActivity
 import com.legocatalog.ui.main.setlist.SetListFragment
 import com.legocatalog.ui.newset.NewSetActivity
+import com.legocatalog.ui.partlist.PartListActivity
 import com.legocatalog.ui.partlist.PartListFragment
 import com.legocatalog.ui.set.SetActivity
 import dagger.Component
@@ -17,6 +18,7 @@ interface AppComponent {
     fun inject(mainActivity: MainActivity)
     fun inject(newSetActivity: NewSetActivity)
     fun inject(setActivity: SetActivity)
+    fun inject(partListActivity: PartListActivity)
 
     fun inject(worker: SetInfoWorker)
     fun inject(worker: SetSaveWorker)

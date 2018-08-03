@@ -25,6 +25,13 @@ interface LegoDao {
         SELECT p.*, sxp.quantity AS quantity
         FROM setxpart AS sxp
         INNER JOIN part AS p ON p.element_id = sxp.element_id
+        """)
+    fun fetchParts(): LiveData<List<PartQuantityEntity>>
+
+    @Query("""
+        SELECT p.*, sxp.quantity AS quantity
+        FROM setxpart AS sxp
+        INNER JOIN part AS p ON p.element_id = sxp.element_id
         WHERE sxp.set_id = :setId
         """)
     fun fetchParts(setId: Int): LiveData<List<PartQuantityEntity>>

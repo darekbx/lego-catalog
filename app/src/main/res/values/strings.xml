@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Lego Catalog</string>
     <string name="hint_set_number">Set number</string>
+    <string name="hint_filter">Type to filter</string>
     <string name="new_set_title">New set</string>
     <string name="unknown_error">Unknown error</string>
     <string name="parts_count">Parts count: %s</string>
@@ -12,6 +13,8 @@
     <string name="type_duplo">Duplo</string>
     <string name="type_city">City</string>
     <string name="type_technic">Technic</string>
+
+    <string name="menu_all_parts">All parts</string>
 
     <string-array name="types">
         <item>@string/type_duplo</item>

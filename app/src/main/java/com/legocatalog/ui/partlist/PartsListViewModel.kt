@@ -15,7 +15,14 @@ class PartsListViewModel @Inject constructor(val repository: Repository): ViewMo
     fun loadParts(setId: Int) {
         parts = Transformations
                 .map(repository.fetchParts(setId), { partEntities ->
-                    partEntities.map { it.toPart() }
+                    partEntities.map { part -> part.toPart() }
+                })
+    }
+
+    fun loadParts() {
+        parts = Transformations
+                .map(repository.fetchParts(), { partEntities ->
+                    partEntities.map { part -> part.toPart() }
                 })
     }
 }

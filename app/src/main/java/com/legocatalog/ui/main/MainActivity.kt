@@ -6,6 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
@@ -13,6 +15,7 @@ import com.legocatalog.LegoCatalogApp
 import com.legocatalog.R
 import com.legocatalog.data.remote.firebase.FirebaseAuthentication
 import com.legocatalog.ui.newset.NewSetActivity
+import com.legocatalog.ui.partlist.PartListActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -53,6 +56,22 @@ class MainActivity : AppCompatActivity() {
                 it.text = "${it.text} ($itemsCount)"
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.menu_all_parts -> openAllParts()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun openAllParts() {
+        startActivity(Intent(this, PartListActivity::class.java))
     }
 
     private fun hasBracket(it: TextView) = it.text.contains("(")

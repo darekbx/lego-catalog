@@ -14,6 +14,7 @@ import java.util.*
 
 class Repository(val firebaseDatabase: FirebaseDatabase, val legoDatabase: LegoDatabase) {
 
+    fun fetchParts() = legoDatabase.getDao().fetchParts()
     fun fetchParts(setId: Int) = legoDatabase.getDao().fetchParts(setId)
     fun fetchSet(setId: Int) = legoDatabase.getDao().fetchSet(setId)
     fun fetchSets(themeId: Int) = legoDatabase.getDao().fetchSets(themeId)
