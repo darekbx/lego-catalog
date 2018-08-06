@@ -24,12 +24,9 @@
             android:label="@string/new_set_title"
             android:windowSoftInputMode="adjustResize"
             />
-        <activity
-            android:name=".ui.set.SetActivity"
-            />
-        <activity
-            android:name=".ui.partlist.PartListActivity"
-            />
+        <activity android:name=".ui.set.SetActivity" />
+        <activity android:name=".ui.partlist.PartListActivity" />
+        <activity android:name=".ui.filters.FiltersActivity" />
     </application>
 
 </manifest>
