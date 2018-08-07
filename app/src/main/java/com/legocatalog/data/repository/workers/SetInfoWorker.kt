@@ -60,8 +60,8 @@ class SetInfoWorker: Worker() {
     }
 
     private fun handleSuccess(response: Response<LegoSet>) {
-        response.body()?.let {
-            val set = it.toSetInfo().toMap()
+        response.body()?.run {
+            val set = toSetInfo().toMap()
             outputData = set.toMap().toWorkData()
         }
     }

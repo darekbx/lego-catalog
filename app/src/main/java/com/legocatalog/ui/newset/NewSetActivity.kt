@@ -136,13 +136,11 @@ class NewSetActivity: AppCompatActivity() {
     }
 
     private fun showSetInformations() {
-        loadedSet?.let { setInfo ->
-            with(setInfo) {
-                set_number.text = number
-                set_name.text = "$name ($year)"
-                set_part_count.text = getString(R.string.parts_count, partsCount)
-                loadImage(this)
-            }
+        loadedSet?.run {
+            set_number.text = number
+            set_name.text = "$name ($year)"
+            set_part_count.text = getString(R.string.parts_count, partsCount)
+            loadImage(this)
         }
     }
 

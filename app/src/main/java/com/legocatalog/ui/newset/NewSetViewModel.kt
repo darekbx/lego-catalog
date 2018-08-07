@@ -26,11 +26,9 @@ class NewSetViewModel @Inject constructor(val repository: Repository): ViewModel
         val work = OneTimeWorkRequestBuilder<SetInfoWorker>()
                 .setInputData(data)
                 .build()
-        WorkManager.getInstance()?.let {
-            with(it) {
-                enqueue(work)
-                workStatus = getStatusById(work.id)
-            }
+        WorkManager.getInstance()?.run {
+            enqueue(work)
+            workStatus = getStatusById(work.id)
         }
     }
 
@@ -51,11 +49,9 @@ class NewSetViewModel @Inject constructor(val repository: Repository): ViewModel
         val work = OneTimeWorkRequestBuilder<SetSaveWorker>()
                 .setInputData(data)
                 .build()
-        WorkManager.getInstance()?.let {
-            with(it) {
-                enqueue(work)
-                saveWorkStatus = getStatusById(work.id)
-            }
+        WorkManager.getInstance()?.run {
+            enqueue(work)
+            saveWorkStatus = getStatusById(work.id)
         }
     }
 }
