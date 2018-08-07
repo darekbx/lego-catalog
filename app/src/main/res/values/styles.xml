@@ -1,11 +1,11 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:windowBackground">@android:color/white</item>
+        <item name="titleTextColor">@android:color/white</item>
+        <item name="subtitleTextColor">@android:color/white</item>
     </style>
 
     <style name="textDefault">
@@ -28,6 +28,7 @@
 
     <style name="defaultButton">
         <item name="android:background">@drawable/bg_default_button</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="defaultPagerStrip">

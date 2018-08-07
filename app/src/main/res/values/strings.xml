@@ -9,6 +9,12 @@
     <string name="set_type_title">Choose type</string>
     <string name="summary">Parts: %d</string>
     <string name="quantity">x%d</string>
+    <string name="filter_title_text">Filter by name or element id</string>
+    <string name="filter_title_color">Filter by colors</string>
+    <string name="filter_title_quantity">Filter by quantity</string>
+    <string name="filter_confirm">Apply filters</string>
+    <string name="filter_name_hint">Enter name</string>
+    <string name="filter_id_hint">Enter element id</string>
 
     <string name="type_duplo">Duplo</string>
     <string name="type_city">City</string>
