@@ -43,7 +43,12 @@ class NewSetActivity: AppCompatActivity() {
         viewModel.result.observe(this@NewSetActivity, Observer { result ->
             result?.let { result ->
                 when (result.first) {
-                    true -> observeSaveChanges()
+                    true -> {
+                        progress_container.post {
+                            progress_container.hide()
+                        }
+                        finish()
+                    }
                     else -> onError(result.second)
                 }
             }
@@ -60,7 +65,7 @@ class NewSetActivity: AppCompatActivity() {
     }
 
     fun observeChanges() {
-        viewModel.workStatus.observe(this, Observer { workStatus ->
+        viewModel.discoverWorkStatus.observe(this, Observer { workStatus ->
             workStatus?.let {
                 when (workStatus.state) {
                     State.SUCCEEDED -> notifySuccess(workStatus.outputData)
@@ -74,9 +79,8 @@ class NewSetActivity: AppCompatActivity() {
     private fun observeSaveChanges() {
         viewModel.saveWorkStatus.observe(this, Observer { workStatus ->
             workStatus?.let {
-                progress_container.hide()
                 when (workStatus.state) {
-                    State.SUCCEEDED -> onSuccess()
+                    State.SUCCEEDED -> onSaveLocallySuccess(workStatus.outputData)
                     State.FAILED -> notifyFailure(workStatus.outputData)
                     else -> { }
                 }
@@ -94,30 +98,39 @@ class NewSetActivity: AppCompatActivity() {
                 .show()
         with(dialog) {
             findViewById<View>(R.id.type_duplo)?.setOnClickListener {
-                saveSet(SetInfo.Theme.DUPLO)
+                saveSetLocally(SetInfo.Theme.DUPLO)
                 dialog.dismiss()
             }
             findViewById<View>(R.id.type_city)?.setOnClickListener {
-                saveSet(SetInfo.Theme.CITY)
+                saveSetLocally(SetInfo.Theme.CITY)
                 dialog.dismiss()
             }
             findViewById<View>(R.id.type_technic)?.setOnClickListener {
-                saveSet(SetInfo.Theme.TECHNIC)
+                saveSetLocally(SetInfo.Theme.TECHNIC)
                 dialog.dismiss()
             }
         }
     }
 
-    private fun saveSet(theme: SetInfo.Theme) {
+    private fun saveSetLocally(theme: SetInfo.Theme) {
         progress_container.show()
         loadedSet?.let {
             it.themeId = theme.ordinal
-            viewModel.saveSet(it)
+            viewModel.saveSetLocally(it)
+            observeSaveChanges()
         }
     }
 
-    private fun onSuccess() {
-        finish()
+    private fun onSaveLocallySuccess(data: Data) {
+        loadedSet?.run {
+            val newSetId = data.getLong("id", -1L)
+            if (newSetId != -1L) {
+                this.id = newSetId.toInt()
+                viewModel.saveSetRemoetly(this)
+            } else {
+                Snackbar.make(input, R.string.common_error, Snackbar.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun onError(message: String) {

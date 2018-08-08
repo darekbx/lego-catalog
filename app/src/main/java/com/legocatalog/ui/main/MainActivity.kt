@@ -1,5 +1,6 @@
 package com.legocatalog.ui.main
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -40,7 +41,13 @@ class MainActivity : AppCompatActivity() {
         (application as LegoCatalogApp).appComponent.inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[MainViewModel::class.java]
-        with(viewModel) { }
+        with(viewModel) {
+            result.observe(this@MainActivity, Observer { message ->
+                message?.run {
+                    Snackbar.make(main_pager, this, Snackbar.LENGTH_SHORT).show()
+                }
+            })
+        }
 
         authenticateWithGoogle()
 
@@ -100,6 +107,8 @@ class MainActivity : AppCompatActivity() {
     private fun displayLoggedUser() {
         val user = FirebaseAuth.getInstance().currentUser
         supportActionBar?.subtitle = user?.displayName
+
+        viewModel.synchronize()
     }
 
     private fun displayAuthError(errorMessage: String) {

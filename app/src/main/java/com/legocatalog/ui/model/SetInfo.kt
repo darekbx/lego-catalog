@@ -1,7 +1,7 @@
 package com.legocatalog.ui.model
 
 data class SetInfo(
-        val id: Int = 0,
+        var id: Int = 0,
         val number: String? = "",
         val name: String? = "",
         val year: String? = "",

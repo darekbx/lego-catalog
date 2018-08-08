@@ -16,7 +16,7 @@ import javax.inject.Inject
 class NewSetViewModel @Inject constructor(val repository: Repository): ViewModel() {
 
     val result: MutableLiveData<Pair<Boolean, String>> = MutableLiveData()
-    lateinit var workStatus: LiveData<WorkStatus>
+    lateinit var discoverWorkStatus: LiveData<WorkStatus>
     lateinit var saveWorkStatus: LiveData<WorkStatus>
 
     fun discoverSetInfo(setNumber: String) {
@@ -28,20 +28,17 @@ class NewSetViewModel @Inject constructor(val repository: Repository): ViewModel
                 .build()
         WorkManager.getInstance()?.run {
             enqueue(work)
-            workStatus = getStatusById(work.id)
+            discoverWorkStatus = getStatusById(work.id)
         }
     }
 
-    fun saveSet(set: SetInfo) {
-        repository.saveItem(set)
-                .addOnSuccessListener {
-                    saveSetLocally(set)
-                    result.value = (true to "")
-                }
+    fun saveSetRemoetly(set: SetInfo) {
+        repository.saveItemRemoetly(set)
+                .addOnSuccessListener { result.value = (true to "") }
                 .addOnFailureListener { error -> result.value = (false to error.toString()) }
     }
 
-    private fun saveSetLocally(set: SetInfo) {
+    fun saveSetLocally(set: SetInfo) {
         val data = Data.Builder()
                 .putString(SetSaveWorker.NUMBER_KEY, set.number)
                 .putInt(SetSaveWorker.THEME_KEY, set.themeId)
