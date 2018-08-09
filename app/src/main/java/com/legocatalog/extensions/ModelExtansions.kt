@@ -55,5 +55,6 @@ fun PartQuantityEntity.toPart() = Part(
         partEntity?.colorName,
         partEntity?.name,
         partEntity?.partNumber,
-        partEntity?.partImgUrl
+        partEntity?.partImgUrl,
+        partEntity?.elementId
 )

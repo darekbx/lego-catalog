@@ -12,10 +12,12 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.legocatalog.LegoCatalogApp
 import com.legocatalog.R
 import com.legocatalog.ui.filters.FiltersActivity
-import kotlinx.android.synthetic.main.fragment_part_list.*
+import com.legocatalog.ui.model.Part
+import kotlinx.android.synthetic.main.activity_parts.*
 import javax.inject.Inject
 
 class PartListActivity : AppCompatActivity() {
@@ -46,7 +48,8 @@ class PartListActivity : AppCompatActivity() {
             parts?.observe(this@PartListActivity, Observer {
                 it?.let {
                     runOnUiThread {
-                        adapter.swapData(it)
+                        adapter.swapData(it.toMutableList())
+                        countParts(it)
                     }
                 }
             })
@@ -63,10 +66,24 @@ class PartListActivity : AppCompatActivity() {
         parts_list.adapter = adapter
     }
 
+    private fun countParts(parts: List<Part>) {
+        val sum = parts.sumBy { it.quantity }
+        summary.text = getString(R.string.summary, sum)
+    }
+
     fun applyFilters() {
+        activeFilters?.run {
+            adapter.filter(this)
+            countParts(adapter.parts)
+            showHideEmptyView()
+        }
+    }
 
-
-
+    private fun showHideEmptyView() {
+        empty_view.visibility = when (adapter.itemCount == 0) {
+            true -> View.VISIBLE
+            false -> View.GONE
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

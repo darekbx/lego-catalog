@@ -13,6 +13,7 @@
     <string name="filter_title_color">Filter by colors</string>
     <string name="filter_title_quantity">Filter by quantity</string>
     <string name="filter_confirm">Apply filters</string>
+    <string name="filter_reset">Reset</string>
     <string name="filter_name_hint">Enter part name</string>
     <string name="filter_color_hint">Enter color name</string>
     <string name="filter_quantity_from_hint">Quantity from</string>
@@ -23,6 +24,7 @@
     <string name="confirm_delete_yes">Yes</string>
     <string name="confirm_delete_no">No</string>
     <string name="filter_all_types">All types</string>
+    <string name="empty_list">No parts</string>
 
     <string name="type_duplo">Duplo</string>
     <string name="type_city">City</string>

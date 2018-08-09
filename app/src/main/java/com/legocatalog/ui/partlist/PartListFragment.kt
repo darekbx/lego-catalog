@@ -55,7 +55,7 @@ class PartListFragment : Fragment() {
                 parts?.observe(this@PartListFragment, Observer {
                     it?.let {
                         view.post {
-                            adapter.swapData(it)
+                            adapter.swapData(it.toMutableList())
                         }
                     }
                 })

@@ -2,7 +2,6 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.CardView
@@ -139,14 +138,25 @@
     </android.support.v7.widget.CardView>
 
     <Button
+        android:id="@+id/apply"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         style="@style/defaultButton"
         android:text="@string/filter_confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/reset"
         android:onClick="onApplyClick"
+        />
+    <Button
+        android:id="@+id/reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/redButton"
+        android:text="@string/filter_reset"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="onResetClick"
         />
 
 </android.support.constraint.ConstraintLayout>

@@ -49,14 +49,54 @@ class FiltersActivity : AppCompatActivity() {
             loadFilters()
             names.observe(this@FiltersActivity, Observer { namesAdapter.addAll(it) })
             elementIds.observe(this@FiltersActivity, Observer { elementsAdapter.addAll(it) })
-            colors.observe(this@FiltersActivity, Observer { colorsAdapter.addAll(it) })
+            colors.observe(this@FiltersActivity, Observer {
+                colorsAdapter.addAll(it)
+                restoreValues()
+            })
         }
+    }
+
+    fun onResetClick(view: View) {
+        filter_type.setSelection(0)
+        filter_name.setText("")
+        filter_element_id.setText("")
+        filter_color.setText("")
+        quantinty_from.setText("")
+        quantinty_to.setText("")
     }
 
     fun onApplyClick(view: View) {
         val filtersBundle = createFiltersBundle()
         setResult(Activity.RESULT_OK, Intent().apply { putExtras(filtersBundle) })
         finish()
+    }
+
+    private fun restoreValues() {
+        intent.extras?.run {
+            restoreTheme(this)
+            restoreQuantity(this)
+
+            filter_name.setText(getString(NAME_KEY))
+            filter_element_id.setText(getString(ELEMENT_ID_KEY))
+            filter_color.setText(getString(COLOR_KEY))
+        }
+    }
+
+    private fun restoreTheme(extras: Bundle) {
+        if (extras.containsKey(THEME_KEY)) {
+            val theme = extras.getString(THEME_KEY)
+            val index = SetInfo.Theme.values().indexOfFirst { it.name == theme }
+            filter_type.setSelection(index + 1)
+        }
+    }
+
+    private fun restoreQuantity(extras: Bundle) {
+        if (extras.containsKey(QUANTITY_FROM_KEY)) {
+            quantinty_from.setText(extras.getInt(QUANTITY_FROM_KEY).toString())
+        }
+        if (extras.containsKey(QUANTITY_TO_KEY)) {
+            quantinty_to.setText(extras.getInt(QUANTITY_TO_KEY).toString())
+        }
     }
 
     private fun createFiltersBundle(): Bundle {

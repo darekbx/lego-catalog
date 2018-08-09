@@ -6,5 +6,6 @@ data class Part(
         var colorName: String? = "",
         var name: String? = null,
         var partNumber: String? = null,
-        var partImgUrl: String? = null
+        var partImgUrl: String? = null,
+        var elementId: String? = null
 ) 

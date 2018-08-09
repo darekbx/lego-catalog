@@ -37,6 +37,11 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="redButton">
+        <item name="android:background">@color/red</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="defaultPagerStrip">
         <item name="android:layout_gravity">top</item>
         <item name="android:paddingTop">@dimen/in_padding</item>
