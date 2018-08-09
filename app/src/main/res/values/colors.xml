@@ -7,4 +7,5 @@
     <color name="colorDisabled">#55093F1E</color>
     <color name="defaultTextColor">#444</color>
     <color name="hintTextColor">#5444</color>
+    <color name="ic_launcher_background">#0B8E58</color>
 </resources>

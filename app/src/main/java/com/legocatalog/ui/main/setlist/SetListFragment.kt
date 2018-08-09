@@ -3,10 +3,12 @@ package com.legocatalog.ui.main.setlist
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -99,7 +101,14 @@ class SetListFragment : Fragment() {
     }
 
     private fun deleteSet(setInfo: SetInfo) {
-        viewModel.deleteSet(setInfo)
+        context?.run {
+            AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.confirm_delete, setInfo.name))
+                    .setPositiveButton(R.string.confirm_delete_yes, { dialog, which -> viewModel.deleteSet(setInfo) })
+                    .setNegativeButton(R.string.confirm_delete_no, { dialog, which -> })
+                    .create()
+                    .show()
+        }
     }
 
     val tabPosition by lazy { arguments?.getInt(TAB_POSITION_KEY) ?: 0 }

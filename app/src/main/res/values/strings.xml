@@ -17,6 +17,9 @@
     <string name="filter_name_hint">Enter name</string>
     <string name="filter_id_hint">Enter element id</string>
     <string name="common_error">An unknown error occurred.</string>
+    <string name="confirm_delete">Delete set "%s"?</string>
+    <string name="confirm_delete_yes">Yes</string>
+    <string name="confirm_delete_no">No</string>
 
     <string name="type_duplo">Duplo</string>
     <string name="type_city">City</string>
