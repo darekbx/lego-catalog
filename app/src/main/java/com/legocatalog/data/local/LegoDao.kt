@@ -23,9 +23,10 @@ interface LegoDao {
     fun fetchSets(themeId: Int): LiveData<List<SetCountEntity>>
 
     @Query("""
-        SELECT p.*, sxp.quantity AS quantity
+        SELECT p.*, SUM(sxp.quantity) AS quantity
         FROM setxpart AS sxp
         INNER JOIN part AS p ON p.element_id = sxp.element_id
+        GROUP BY sxp.element_id
         """)
     fun fetchParts(): LiveData<List<PartQuantityEntity>>
 
@@ -43,6 +44,13 @@ interface LegoDao {
         WHERE id = :setId
         """)
     fun fetchSet(setId: Int): LiveData<SetEntity>
+
+    @Query("""
+        SELECT *
+        FROM `set`
+        WHERE number = :number
+        """)
+    fun fetchSetSynchronously(number: String?): SetEntity
 
     @Query("""
         SELECT COUNT(id)

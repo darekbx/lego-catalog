@@ -4,13 +4,14 @@ import androidx.work.Worker
 import androidx.work.toWorkData
 import com.google.gson.Gson
 import com.legocatalog.LegoCatalogApp
-import com.legocatalog.data.local.SetEntity
 import com.legocatalog.data.remote.model.ErrorResponse
 import com.legocatalog.data.remote.model.LegoPartsWrapper
 import com.legocatalog.data.remote.model.LegoSet
 import com.legocatalog.data.remote.rebrickable.RebrickableService
 import com.legocatalog.data.repository.Repository
+import com.legocatalog.extensions.toMap
 import com.legocatalog.extensions.toSetEntity
+import com.legocatalog.extensions.toSetInfo
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -52,6 +53,7 @@ class SetSaveWorker: Worker() {
                 if (setId != null) {
                     val result = fetchSetParts(setId.toInt(), number)
                     if (result) {
+                        handleSuccess(setId)
                         return Result.SUCCESS
                     } else {
                         handleError(response)
@@ -103,5 +105,9 @@ class SetSaveWorker: Worker() {
 
     private fun handleError(message: String) {
         outputData = mapOf(ERROR_MESSAGE_KEY to message).toWorkData()
+    }
+
+    private fun handleSuccess(setId: Long) {
+        outputData = mapOf("id" to setId).toWorkData()
     }
 }
