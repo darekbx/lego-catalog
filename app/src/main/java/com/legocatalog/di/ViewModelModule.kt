@@ -2,6 +2,7 @@ package com.legocatalog.di
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import com.legocatalog.ui.filters.FiltersViewModel
 import com.legocatalog.ui.main.MainViewModel
 import com.legocatalog.ui.main.setlist.SetListViewModel
 import com.legocatalog.ui.newset.NewSetViewModel
@@ -41,4 +42,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelFactory.ViewModelKey(PartsListViewModel::class)
     internal abstract fun bindPartsListViewModel(viewModel: PartsListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelFactory.ViewModelKey(FiltersViewModel::class)
+    internal abstract fun bindFiltersViewModel(viewModel: FiltersViewModel): ViewModel
 }

@@ -9,6 +9,12 @@ import android.arch.persistence.room.Query
 interface LegoDao {
 
     @Query("""
+        SELECT DISTINCT color_name
+        FROM part
+        """)
+    fun fetchColors(): LiveData<List<String>>
+
+    @Query("""
         SELECT *
         FROM `set`
         """)

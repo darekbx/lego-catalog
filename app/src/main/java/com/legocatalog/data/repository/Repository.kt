@@ -22,6 +22,7 @@ class Repository(val firebaseDatabase: FirebaseDatabase, val legoDatabase: LegoD
     fun fetchParts(setId: Int) = legoDatabase.getDao().fetchParts(setId)
     fun fetchSet(setId: Int) = legoDatabase.getDao().fetchSet(setId)
     fun fetchSets(themeId: Int) = legoDatabase.getDao().fetchSets(themeId)
+    fun fetchColors() = legoDatabase.getDao().fetchColors()
     fun addSet(setEntity: SetEntity) = legoDatabase.getDao().add(setEntity)
 
     fun deleteSet(setId: Int) {

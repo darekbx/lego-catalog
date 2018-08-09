@@ -13,13 +13,16 @@
     <string name="filter_title_color">Filter by colors</string>
     <string name="filter_title_quantity">Filter by quantity</string>
     <string name="filter_confirm">Apply filters</string>
-    <string name="filter_type_hint">Choose type</string>
-    <string name="filter_name_hint">Enter name</string>
-    <string name="filter_id_hint">Enter element id</string>
+    <string name="filter_name_hint">Enter part name</string>
+    <string name="filter_color_hint">Enter color name</string>
+    <string name="filter_quantity_from_hint">Quantity from</string>
+    <string name="filter_quantity_to_hint">Quantity to</string>
+    <string name="filter_id_hint">Enter part id</string>
     <string name="common_error">An unknown error occurred.</string>
     <string name="confirm_delete">Delete set "%s"?</string>
     <string name="confirm_delete_yes">Yes</string>
     <string name="confirm_delete_no">No</string>
+    <string name="filter_all_types">All types</string>
 
     <string name="type_duplo">Duplo</string>
     <string name="type_city">City</string>

@@ -65,6 +65,8 @@ class PartListActivity : AppCompatActivity() {
 
     fun applyFilters() {
 
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

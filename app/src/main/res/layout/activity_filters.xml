@@ -27,7 +27,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="@string/filter_title_text"
                 />
-
             <Spinner
                 android:id="@+id/filter_type"
                 android:layout_width="0dp"
@@ -35,11 +34,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/card_title"
-                android:spinnerMode="dialog"
-                android:prompt="@string/filter_type_hint"
                 />
-
-            <EditText
+            <android.support.v7.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/filter_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -48,8 +44,7 @@
                 app:layout_constraintTop_toBottomOf="@id/filter_type"
                 android:hint="@string/filter_name_hint"
                 />
-
-            <EditText
+            <android.support.v7.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/filter_element_id"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -58,7 +53,6 @@
                 app:layout_constraintTop_toBottomOf="@id/filter_name"
                 android:hint="@string/filter_id_hint"
                 />
-
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
@@ -74,8 +68,10 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="@dimen/out_padding"
             >
             <TextView
+                android:id="@+id/title_colors"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
@@ -83,7 +79,15 @@
                 android:text="@string/filter_title_color"
                 android:padding="@dimen/in_padding"
                 />
-
+            <android.support.v7.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/filter_color"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_colors"
+                android:hint="@string/filter_color_hint"
+                />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
@@ -99,8 +103,10 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="@dimen/out_padding"
             >
             <TextView
+                android:id="@+id/title_quantinty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
@@ -108,7 +114,27 @@
                 android:text="@string/filter_title_quantity"
                 android:padding="@dimen/in_padding"
                 />
-
+            <EditText
+                android:id="@+id/quantinty_from"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/title_quantinty"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/quantinty_to"
+                android:layout_marginRight="@dimen/out_padding"
+                android:inputType="numberSigned"
+                android:hint="@string/filter_quantity_from_hint"
+                />
+            <EditText
+                android:id="@+id/quantinty_to"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/title_quantinty"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/quantinty_from"
+                android:inputType="numberSigned"
+                android:hint="@string/filter_quantity_to_hint"
+                />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
@@ -120,18 +146,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="onApplyClick"
         />
-
-    <!--
-    Filters:
-    By element Id
-    By name
-
-    By color
-    Is transparent
-
-    By quantinty (from, to)
-    -->
-
 
 </android.support.constraint.ConstraintLayout>
