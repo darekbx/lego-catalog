@@ -29,6 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
         android:text="@string/type_duplo"
+        android:textColor="@android:color/white"
         android:background="@drawable/bg_default_button"
         android:layout_marginTop="2dp"
         />
@@ -40,6 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/type_duplo"
         android:text="@string/type_city"
+        android:textColor="@android:color/white"
         android:background="@drawable/bg_default_button"
         android:layout_marginTop="2dp"
         />
@@ -51,6 +53,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/type_city"
         android:text="@string/type_technic"
+        android:textColor="@android:color/white"
         android:background="@drawable/bg_default_button"
         android:layout_marginTop="2dp"
         />

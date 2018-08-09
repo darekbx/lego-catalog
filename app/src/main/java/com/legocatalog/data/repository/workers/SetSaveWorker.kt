@@ -83,7 +83,7 @@ class SetSaveWorker: Worker() {
     private fun saveSet(response: Response<LegoSet>, themeId: Int): Long? {
         return response.body()?.let {
             it.themeId = themeId
-            repository.addSet(it.toSetEntity())
+            return repository.addSet(it.toSetEntity())
         }
     }
 

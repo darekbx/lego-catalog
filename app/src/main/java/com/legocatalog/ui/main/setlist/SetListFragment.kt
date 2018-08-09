@@ -78,9 +78,9 @@ class SetListFragment : Fragment() {
     }
 
     private fun initializeList(view: View) {
-        setListAdapter = SetListAdapter(view.context, { clickedSet ->
-            openSet(clickedSet)
-        })
+        setListAdapter = SetListAdapter(view.context,
+                { clickedSet -> openSet(clickedSet) },
+                { longClickedSet -> deleteSet(longClickedSet) })
         val layoutManager = LinearLayoutManager(view.context)
         val color = resources.getColor(R.color.colorAccent, activity?.theme)
         val divider = DividerItemDecoration(sets_list.context, layoutManager.orientation)
@@ -96,6 +96,10 @@ class SetListFragment : Fragment() {
                     putExtra(SetActivity.SET_ID, setInfo.id)
                 }
         )
+    }
+
+    private fun deleteSet(setInfo: SetInfo) {
+        viewModel.deleteSet(setInfo)
     }
 
     val tabPosition by lazy { arguments?.getInt(TAB_POSITION_KEY) ?: 0 }

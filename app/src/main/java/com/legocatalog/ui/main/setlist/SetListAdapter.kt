@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import com.legocatalog.databinding.AdapterSetBinding
 import com.legocatalog.ui.model.SetInfo
 
-class SetListAdapter(val context: Context, val onItemClick: (set: SetInfo) -> Unit)
+class SetListAdapter(val context: Context,
+                     val onItemClick: (set: SetInfo) -> Unit,
+                     val onItemLongClick: (set: SetInfo) -> Unit)
     : RecyclerView.Adapter<SetListAdapter.ViewHolder>() {
 
     var setInfos = emptyList<SetInfo>()
@@ -26,7 +28,7 @@ class SetListAdapter(val context: Context, val onItemClick: (set: SetInfo) -> Un
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val set = setInfos.get(position)
-        holder.bind(set, onItemClick)
+        holder.bind(set, onItemClick, onItemLongClick)
     }
 
     val inflater by lazy { LayoutInflater.from(context) }
@@ -34,10 +36,16 @@ class SetListAdapter(val context: Context, val onItemClick: (set: SetInfo) -> Un
     class ViewHolder(val binding: AdapterSetBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(setInfo: SetInfo, onItemClick: (set: SetInfo) -> Unit) {
+        fun bind(setInfo: SetInfo,
+                 onItemClick: (set: SetInfo) -> Unit,
+                 onItemLongClick: (set: SetInfo) -> Unit) {
             with(binding) {
                 set = setInfo
                 root.setOnClickListener { onItemClick(setInfo) }
+                root.setOnLongClickListener {
+                    onItemLongClick(setInfo)
+                    true
+                }
                 executePendingBindings()
             }
         }

@@ -2,6 +2,7 @@ package com.legocatalog.data.local
 
 import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
+import android.arch.persistence.room.Delete
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
 
@@ -58,4 +59,10 @@ interface LegoDao {
 
     @Insert
     fun add(setXPartEntity: SetXPartEntity): Long
+
+    @Query("DELETE FROM `set` WHERE id = :setId")
+    fun deleteSet(setId: Int)
+
+    @Query("DELETE FROM setxpart WHERE set_id = :setId")
+    fun deleteSetXPart(setId: Int)
 }

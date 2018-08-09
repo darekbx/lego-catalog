@@ -17,4 +17,8 @@ class SetListViewModel @Inject constructor(val repository: Repository): ViewMode
                 repository.fetchSets(theme.ordinal),
                 { setEntities -> setEntities.map { it.toSetInfo() } })
     }
+
+    fun deleteSet(setInfo: SetInfo) {
+        repository.deleteSet(setInfo.id)
+    }
 }

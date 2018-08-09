@@ -20,6 +20,30 @@ class Repository(val firebaseDatabase: FirebaseDatabase, val legoDatabase: LegoD
     fun fetchSets(themeId: Int) = legoDatabase.getDao().fetchSets(themeId)
     fun addSet(setEntity: SetEntity) = legoDatabase.getDao().add(setEntity)
 
+    fun deleteSet(setId: Int) {
+        with(legoDatabase.getDao()) {
+            deleteSet(setId)
+            deleteSetXPart(setId)
+        }
+        firebaseDatabase
+                .sets
+                .orderByKey()
+                .addValueEventListener(object : ValueEventListener {
+
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        dataSnapshot.children.forEach { child ->
+                            val setInfo = childToLegoSet(child)
+                            if (setInfo.id == setId) {
+                                child.ref.removeValue()
+                            }
+                        }
+                    }
+                })
+    }
+
     fun addParts(setId: Int, wrapper: LegoPartsWrapper) {
         with(legoDatabase) {
             beginTransaction()
