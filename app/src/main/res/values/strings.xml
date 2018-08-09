@@ -8,6 +8,7 @@
     <string name="add_button">Add to my sets</string>
     <string name="set_type_title">Choose type</string>
     <string name="summary">Parts: %d</string>
+    <string name="summary_all">Parts: %d\nUnique: %d</string>
     <string name="quantity">x%d</string>
     <string name="filter_title_text">Common filters</string>
     <string name="filter_title_color">Filter by colors</string>

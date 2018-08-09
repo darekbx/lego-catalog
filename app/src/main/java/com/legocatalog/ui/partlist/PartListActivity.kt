@@ -68,7 +68,7 @@ class PartListActivity : AppCompatActivity() {
 
     private fun countParts(parts: List<Part>) {
         val sum = parts.sumBy { it.quantity }
-        summary.text = getString(R.string.summary, sum)
+        summary.text = getString(R.string.summary_all, sum, parts.size)
     }
 
     fun applyFilters() {
